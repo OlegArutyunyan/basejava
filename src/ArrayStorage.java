@@ -28,6 +28,21 @@ public class ArrayStorage {
     }
 
     void delete(String uuid) {
+        int i = 0;
+        for (Resume n : storage) {
+            if (n == null) {
+                break;
+            } else if (n.toString().equals(uuid)) {
+                for (int j = i; j <= 10000; j++) {
+                    storage[j] = storage[j + 1];
+                    if (storage[j + 1] == null) {
+                        break;
+                    }
+                }
+                break;
+            }
+            i++;
+        }
     }
 
     /**
@@ -38,6 +53,14 @@ public class ArrayStorage {
     }
 
     int size() {
+        int i = 0;
+        for (Resume n : storage) {
+            if (n == null) {
+                return i;
+            } else  {
+                i++;
+            }
+        }
         return 0;
     }
 }
