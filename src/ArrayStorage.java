@@ -5,6 +5,7 @@ import java.util.Arrays;
  */
 public class ArrayStorage {
     Resume[] storage = new Resume[10000];
+    public int array_size = 0;
 
     void clear() {
         for (int i = 0; i <= storage.length; i++) {
@@ -14,12 +15,14 @@ public class ArrayStorage {
                 break;
             }
         }
+        array_size = 0;
     }
 
     void save(Resume r) {
         for (int i = 0; i <= storage.length; i++) {
             if (storage[i] == null) {
                 storage[i] = r;
+                array_size++;
                 break;
             }
         }
@@ -48,6 +51,7 @@ public class ArrayStorage {
                         break;
                     }
                 }
+                array_size--;
                 break;
             }
             i++;
@@ -70,14 +74,6 @@ public class ArrayStorage {
     }
 
     int size() {
-        int i = 0;
-        for (Resume n : storage) {
-            if (n != null) {
-                i++;
-            } else {
-                break;
-            }
-        }
-        return i;
+        return array_size;
     }
 }
