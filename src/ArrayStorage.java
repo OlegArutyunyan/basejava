@@ -4,23 +4,23 @@ import java.util.Arrays;
  * Array based storage for Resumes
  */
 public class ArrayStorage {
+    public int size = 0;
     Resume[] storage = new Resume[10000];
-    public int array_size = 0;
 
     void clear() {
-        for (int i = 0; i < array_size; i++) {
+        for (int i = 0; i < size; i++) {
             storage[i] = null;
         }
-        array_size = 0;
+        size = 0;
     }
 
     void save(Resume r) {
-        storage[array_size] = r;
-        array_size++;
+        storage[size] = r;
+        size++;
     }
 
     Resume get(String uuid) {
-        for (int i = 0; i < array_size; i++) {
+        for (int i = 0; i < size; i++) {
             if (storage[i].toString().equals(uuid)) {
                 return storage[i];
             }
@@ -29,25 +29,26 @@ public class ArrayStorage {
     }
 
     void delete(String uuid) {
-        for (int i = 0; i < array_size; i++) {
+        for (int i = 0; i < size; i++) {
             if (storage[i].toString().equals(uuid)) {
-                 for (int j = i; j < array_size; j++) {
+                for (int j = i; j < size - 1; j++) {
                     storage[j] = storage[j + 1];
                 }
+                storage[size] = null;
+                size--;
                 break;
             }
         }
-        array_size--;
     }
 
     /**
      * @return array, contains only Resumes in storage (without null)
      */
     Resume[] getAll() {
-        return Arrays.copyOfRange(storage, 0, array_size);
+        return Arrays.copyOf(storage, size);
     }
 
     int size() {
-        return array_size;
+        return size;
     }
 }
