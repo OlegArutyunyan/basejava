@@ -27,6 +27,7 @@ public class ArrayStorage {
             }
         }
     }
+    //hweiuhfoiurhgipuohwropig
 
     Resume get(String uuid) {
         for (Resume n : storage) {
