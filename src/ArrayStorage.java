@@ -8,9 +8,22 @@ public class ArrayStorage {
     }
 
     void save(Resume r) {
+        for (int i = 0; i <= storage.length; i++) {
+            if (storage[i] == null) {
+                storage[i] = r;
+                break;
+            }
+        }
     }
 
     Resume get(String uuid) {
+        for (Resume n : storage) {
+            if (n == null) {
+                return null;
+            } else if (n.toString().equals(uuid)) {
+                return n;
+            }
+        }
         return null;
     }
 
