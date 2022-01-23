@@ -13,16 +13,13 @@ public class ArrayStorage {
 
     /* Attempt to create additional method to avoid use of duplicate code
      * Method is used to check if the resume is existing. */
-    int resumeExistence(String uuid) {
-        int index = -1;
-
+    private int findIndex(String uuid) {
         for (int i = 0; i < size; i++) {
             if (uuid == storage[i].getUuid()) {
-                index = i;
-                return index;
+                return i;
             }
         }
-        return index;
+        return -1;
     }
 
     public void clear() {
@@ -30,33 +27,31 @@ public class ArrayStorage {
         size = 0;
     }
 
-    public void update(Resume r) {
-        int index = resumeExistence(r.getUuid());
+    public void update(String oldUuid, String newUuid) {
+        int index = findIndex(oldUuid);
 
         if (index >= 0) {
-            storage[index].setUuid(r.getUuid());
+            storage[index].setUuid(newUuid);
         } else {
-            System.out.println("No resume " + r.getUuid() + " found!");
+            System.out.println("No resume " + oldUuid + " found!");
         }
     }
 
     public void save(Resume r) {
-        int index = resumeExistence(r.getUuid());
+        int index = findIndex(r.getUuid());
 
         if (size >= storage.length) {
             System.out.println("Storage is full!");
+        } else if (index == -1) {
+            storage[size] = r;
+            size++;
         } else {
-            if (index == -1) {
-                storage[size] = r;
-                size++;
-            } else {
-                System.out.println("Resume " + r.getUuid() + " already exists!");
-            }
+            System.out.println("Resume " + r.getUuid() + " already exists!");
         }
     }
 
     public Resume get(String uuid) {
-        int index = resumeExistence(uuid);
+        int index = findIndex(uuid);
 
         if (index >= 0) {
             return storage[index];
@@ -66,7 +61,7 @@ public class ArrayStorage {
     }
 
     public void delete(String uuid) {
-        int index = resumeExistence(uuid);
+        int index = findIndex(uuid);
 
         if (index >= 0) {
             if (size - 1 - index >= 0) {
