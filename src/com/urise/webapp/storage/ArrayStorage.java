@@ -27,13 +27,13 @@ public class ArrayStorage {
         size = 0;
     }
 
-    public void update(String oldUuid, String newUuid) {
-        int index = findIndex(oldUuid);
+    public void update(Resume r) {
+        int index = findIndex(r.getUuid());
 
         if (index >= 0) {
-            storage[index].setUuid(newUuid);
+            storage[index] = r;
         } else {
-            System.out.println("No resume " + oldUuid + " found!");
+            System.out.println("No resume " + r.getUuid() + " found!");
         }
     }
 
@@ -64,9 +64,7 @@ public class ArrayStorage {
         int index = findIndex(uuid);
 
         if (index >= 0) {
-            if (size - 1 - index >= 0) {
-                System.arraycopy(storage, index + 1, storage, index, size - 1 - index);
-            }
+            System.arraycopy(storage, index + 1, storage, index, size - 1 - index);
             storage[size - 1] = null;
             size--;
         } else {
