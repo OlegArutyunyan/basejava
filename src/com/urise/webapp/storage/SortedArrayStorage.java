@@ -21,16 +21,6 @@ public class SortedArrayStorage extends AbstractArrayStorage {
         }
     }
 
-    public void update(Resume r) {
-        int binaryIndex = getIndex(r.getUuid());
-
-        if (binaryIndex < 0) {
-            System.out.println("Resume " + r.getUuid() + " not exist");
-        } else {
-            storage[binaryIndex] = r;
-        }
-    }
-
     @Override
     protected int getIndex(String uuid) {
         Resume searchKey = new Resume();
