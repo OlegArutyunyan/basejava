@@ -1,5 +1,6 @@
 package com.urise.webapp.storage;
 
+import com.urise.webapp.exception.NotExistStorageException;
 import com.urise.webapp.model.Resume;
 
 public interface Storage {
@@ -10,7 +11,7 @@ public interface Storage {
 
     void save(Resume r);
 
-    Resume get(String uuid);
+    Resume get(String uuid) throws NotExistStorageException;
 
     void delete(String uuid);
 
