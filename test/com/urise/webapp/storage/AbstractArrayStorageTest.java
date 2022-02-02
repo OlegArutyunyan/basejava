@@ -13,7 +13,7 @@ import java.util.Arrays;
 
 import static com.urise.webapp.storage.AbstractArrayStorage.STORAGE_LIMIT;
 
-public class AbstractArrayStorageTest {
+public abstract class AbstractArrayStorageTest {
     protected Storage storage;
 
     public AbstractArrayStorageTest(Storage storage) {
@@ -26,10 +26,6 @@ public class AbstractArrayStorageTest {
         for (int i = 1; i <= 3; i++) {
             storage.save(new Resume("uuid" + i));
         }
-    }
-
-    @After
-    public void tearDown() throws Exception {
     }
 
     @Test
@@ -53,9 +49,7 @@ public class AbstractArrayStorageTest {
 
     @Test
     public void get() {
-        Resume resume = new Resume("uuid2");
-
-        Assert.assertEquals(resume, storage.get("uuid2"));
+        Assert.assertEquals(new Resume("uuid2"), storage.get("uuid2"));
     }
 
     @Test(expected = NotExistStorageException.class)
@@ -65,11 +59,9 @@ public class AbstractArrayStorageTest {
 
     @Test(expected = NotExistStorageException.class)
     public void delete() {
-        Resume resume = new Resume("uuid2");
-
         storage.delete("uuid2");
         Assert.assertEquals(2, storage.size());
-        Assert.assertEquals(resume, storage.get("uuid2"));
+        storage.get("uuid2");
     }
 
     @Test(expected = NotExistStorageException.class)
@@ -79,14 +71,12 @@ public class AbstractArrayStorageTest {
 
     @Test
     public void save() {
-        Resume resume = new Resume("uuid6");
-
         try {
             for (int i = storage.size() + 1; i <= STORAGE_LIMIT; i++) {
                 storage.save(new Resume("uuid" + i));
             }
             Assert.assertEquals(10, storage.size());
-            Assert.assertEquals(resume, storage.get("uuid6"));
+            storage.get("uuid6");
         } catch (Exception e) {
             Assert.fail("Storage overflow occurred earlier than expected");
         }

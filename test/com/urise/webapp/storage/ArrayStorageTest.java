@@ -10,7 +10,6 @@ import java.util.Arrays;
 import static org.junit.Assert.*;
 
 public class ArrayStorageTest extends AbstractArrayStorageTest{
-    ArrayStorage arrayStorage;
 
     public ArrayStorageTest() {
         super(new ArrayStorage());
@@ -19,11 +18,5 @@ public class ArrayStorageTest extends AbstractArrayStorageTest{
     @Before
     public void setUp() throws Exception {
         super.setUp();
-        arrayStorage = (ArrayStorage) storage;
     }
-
-    @Test
-    public void saveResume() {
-    }
-
 }

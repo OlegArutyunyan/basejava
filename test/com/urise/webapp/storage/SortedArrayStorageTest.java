@@ -5,8 +5,7 @@ import org.junit.Test;
 
 import static org.junit.Assert.*;
 
-public class SortedArrayStorageTest extends AbstractArrayStorageTest{
-    SortedArrayStorage sortedArrayStorage;
+public class SortedArrayStorageTest extends AbstractArrayStorageTest {
 
     public SortedArrayStorageTest() {
         super(new SortedArrayStorage());
@@ -15,10 +14,5 @@ public class SortedArrayStorageTest extends AbstractArrayStorageTest{
     @Before
     public void setUp() throws Exception {
         super.setUp();
-        sortedArrayStorage = (SortedArrayStorage) storage;
-    }
-
-    @Test
-    public void saveResume() {
     }
 }
