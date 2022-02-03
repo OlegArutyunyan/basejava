@@ -1,13 +1,7 @@
 package com.urise.webapp.storage;
 
-import com.urise.webapp.model.Resume;
-import org.junit.AfterClass;
 import org.junit.Before;
-import org.junit.Test;
-
-import java.util.Arrays;
-
-import static org.junit.Assert.*;
+import org.junit.BeforeClass;
 
 public class ArrayStorageTest extends AbstractArrayStorageTest{
 
