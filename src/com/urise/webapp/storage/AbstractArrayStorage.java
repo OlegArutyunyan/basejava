@@ -1,8 +1,8 @@
 package com.urise.webapp.storage;
 
 
-import com.urise.webapp.exception.NotExistStorageException;
 import com.urise.webapp.exception.ExistStorageException;
+import com.urise.webapp.exception.NotExistStorageException;
 import com.urise.webapp.exception.StorageException;
 import com.urise.webapp.model.Resume;
 
@@ -17,13 +17,11 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
     protected Resume[] storage = new Resume[STORAGE_LIMIT];
     protected int size = 0;
 
-    @Override
     public void clear() {
         Arrays.fill(storage, 0, size, null);
         size = 0;
     }
 
-    @Override
     public final void update(Resume r) {
         int index = getIndex(r.getUuid());
 
@@ -34,7 +32,6 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
         }
     }
 
-    @Override
     public final Resume get(String uuid) {
         int index = getIndex(uuid);
         if (index < 0) {
@@ -43,7 +40,6 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
         return storage[index];
     }
 
-    @Override
     public final void delete(String uuid) {
         int index = getIndex(uuid);
         if (index < 0) {
@@ -55,7 +51,6 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
         }
     }
 
-    @Override
     public final void save(Resume r) {
         int index = getIndex(r.getUuid());
 
@@ -69,12 +64,10 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
         }
     }
 
-    @Override
     public Resume[] getAll() {
         return Arrays.copyOfRange(storage, 0, size);
     }
 
-    @Override
     public int size() {
         return size;
     }
