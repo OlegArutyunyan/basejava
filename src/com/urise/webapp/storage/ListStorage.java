@@ -2,54 +2,32 @@ package com.urise.webapp.storage;
 
 import com.urise.webapp.exception.ExistStorageException;
 import com.urise.webapp.exception.NotExistStorageException;
+import com.urise.webapp.exception.StorageException;
 import com.urise.webapp.model.Resume;
 
 import java.util.ArrayList;
 
-public class ListStorage extends AbstractStorage{
+public class ListStorage extends AbstractStorage {
     ArrayList<Resume> resumeList = new ArrayList<Resume>();
 
     public final void clear() {
         resumeList.clear();
     }
 
-    public final void update(Resume r) {
-        if (!resumeList.contains(r)) {
-            throw new NotExistStorageException(r.getUuid());
-        } else {
-            for (int i = 0; i < resumeList.size(); i++) {
-                if (r.equals(resumeList.get(i))) {
-                    resumeList.set(i, r);
-                }
-            }
-        }
+    protected final void updateResume (Resume r, int index) {
+        resumeList.set(index, r);
     }
 
-    public final Resume get(String uuid) {
-        for (Resume resume : resumeList) {
-            if (uuid.equals(resume.getUuid())) {
-                return resume;
-            }
-        }
-        throw new NotExistStorageException(uuid);
+    protected final Resume getResume(int index) {
+        return resumeList.get(index);
     }
 
-    public final void delete(String uuid) {
-        for (Resume resume : resumeList) {
-            if (uuid.equals(resume.getUuid())) {
-                resumeList.remove(resume);
-                return;
-            }
-        }
-        throw new NotExistStorageException(uuid);
+    protected final void deleteResume(int index) {
+        resumeList.remove(index);
     }
 
-    public final void save(Resume r) {
-        if (resumeList.contains(r)) {
-            throw new ExistStorageException(r.getUuid());
-        } else {
-            resumeList.add(r);
-        }
+    protected final void saveResume(Resume r, int index) {
+        resumeList.add(r);
     }
 
     public final Resume[] getAll() {
@@ -58,5 +36,14 @@ public class ListStorage extends AbstractStorage{
 
     public final int size() {
         return resumeList.size();
+    }
+
+    protected int getIndex(Resume resume) {
+        for (int i = 0; i < resumeList.size(); i++) {
+            if (resume.equals(resumeList.get(i))) {
+                return i;
+            }
+        }
+        return -1;
     }
 }

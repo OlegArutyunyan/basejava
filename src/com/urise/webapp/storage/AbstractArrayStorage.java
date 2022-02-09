@@ -22,44 +22,25 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
         size = 0;
     }
 
-    public final void update(Resume r) {
-        int index = getIndex(r.getUuid());
-
-        if (index < 0) {
-            throw new NotExistStorageException(r.getUuid());
-        } else {
-            storage[index] = r;
-        }
+    protected final void updateResume(Resume r, int index) {
+        storage[index] = r;
     }
 
-    public final Resume get(String uuid) {
-        int index = getIndex(uuid);
-        if (index < 0) {
-            throw new NotExistStorageException(uuid);
-        }
+    protected final Resume getResume(int index) {
         return storage[index];
     }
 
-    public final void delete(String uuid) {
-        int index = getIndex(uuid);
-        if (index < 0) {
-            throw new NotExistStorageException(uuid);
-        } else {
-            System.arraycopy(storage, index + 1, storage, index, size - 1 - index);
-            storage[size - 1] = null;
-            size--;
-        }
+    protected final void deleteResume(int index) {
+        System.arraycopy(storage, index + 1, storage, index, size - 1 - index);
+        storage[size - 1] = null;
+        size--;
     }
 
-    public final void save(Resume r) {
-        int index = getIndex(r.getUuid());
-
-        if (index >= 0) {
-            throw new ExistStorageException(r.getUuid());
-        } else if (size >= STORAGE_LIMIT) {
+    protected final void saveResume(Resume r, int index) {
+        if (size >= STORAGE_LIMIT) {
             throw new StorageException("Storage overflow!", r.getUuid());
         } else {
-            saveResume(r, index);
+            saveResumeArray(r, index);
             size++;
         }
     }
@@ -72,7 +53,7 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
         return size;
     }
 
-    protected abstract int getIndex(String uuid);
+    protected abstract int getIndex(Resume resume);
 
-    protected abstract void saveResume(Resume r, int index);
+    protected abstract void saveResumeArray(Resume r, int index);
 }
