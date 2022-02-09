@@ -14,8 +14,8 @@ import static org.junit.Assert.*;
 public abstract class AbstractStorageTest {
     private static final String EXIST_UUID = "uuid2";
     private static final String NOT_EXIST_UUID = "uuid16";
-    private static final Resume[] EXPECTED_RESUME = new Resume[3];
-    private final Storage storage;
+    protected static final Resume[] EXPECTED_RESUME = new Resume[3];
+    protected final Storage storage;
 
     public AbstractStorageTest(Storage storage) {
         this.storage = storage;
@@ -29,7 +29,7 @@ public abstract class AbstractStorageTest {
     }
 
     @Before
-    public void setUp() throws Exception {
+    public void setUp() {
         storage.clear();
         for (int i = 1; i <= 3; i++) {
             storage.save(new Resume("uuid" + i));

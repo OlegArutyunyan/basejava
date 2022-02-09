@@ -18,11 +18,11 @@ public class ListStorage extends AbstractStorage {
         resumeList.set(index, r);
     }
 
-    protected final Resume getResume(int index) {
+    protected final Resume getResume(String uuid, int index) {
         return resumeList.get(index);
     }
 
-    protected final void deleteResume(int index) {
+    protected final void deleteResume(String uuid, int index) {
         resumeList.remove(index);
     }
 

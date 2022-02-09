@@ -26,11 +26,11 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
         storage[index] = r;
     }
 
-    protected final Resume getResume(int index) {
+    protected final Resume getResume(String uuid, int index) {
         return storage[index];
     }
 
-    protected final void deleteResume(int index) {
+    protected final void deleteResume(String uuid, int index) {
         System.arraycopy(storage, index + 1, storage, index, size - 1 - index);
         storage[size - 1] = null;
         size--;
