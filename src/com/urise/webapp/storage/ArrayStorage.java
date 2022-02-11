@@ -11,9 +11,9 @@ public class ArrayStorage extends AbstractArrayStorage {
         storage[size] = r;
     }
 
-    protected int getIndex(Resume resume) {
+    protected int getIndex(String uuid) {
         for (int i = 0; i < size; i++) {
-            if (resume.equals(storage[i])) {
+            if (uuid.equals(storage[i].getUuid())) {
                 return i;
             }
         }

@@ -43,7 +43,7 @@ public class MapStorage extends AbstractStorage {
     }
 
     @Override
-    protected int getIndex(Resume resume) {
-        return storageMap.containsValue(resume) ? 1 : -1;
+    protected int getIndex(String uuid) {
+        return storageMap.containsKey(uuid) ? 1 : -1;
     }
 }

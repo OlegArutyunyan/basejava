@@ -36,9 +36,9 @@ public class ListStorage extends AbstractStorage {
         return resumeList.size();
     }
 
-    protected int getIndex(Resume resume) {
+    protected int getIndex(String uuid) {
         for (int i = 0; i < resumeList.size(); i++) {
-            if (resume.equals(resumeList.get(i))) {
+            if (uuid.equals(resumeList.get(i).getUuid())) {
                 return i;
             }
         }
