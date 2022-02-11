@@ -1,14 +1,12 @@
 package com.urise.webapp.storage;
 
-import com.urise.webapp.exception.ExistStorageException;
-import com.urise.webapp.exception.NotExistStorageException;
-import com.urise.webapp.exception.StorageException;
 import com.urise.webapp.model.Resume;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class ListStorage extends AbstractStorage {
-    ArrayList<Resume> resumeList = new ArrayList<Resume>();
+    private final List<Resume> resumeList = new ArrayList<>();
 
     public final void clear() {
         resumeList.clear();

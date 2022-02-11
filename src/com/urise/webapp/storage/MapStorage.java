@@ -5,48 +5,45 @@ import com.urise.webapp.model.Resume;
 import java.util.*;
 
 public class MapStorage extends AbstractStorage {
-    Map<String, Resume> resumeMap = new HashMap<>();
+    private final Map<String, Resume> storageMap = new HashMap<>();
 
     @Override
     public void clear() {
-        resumeMap.clear();
+        storageMap.clear();
     }
 
     @Override
     protected void updateResume(Resume r, int index) {
-        resumeMap.put(r.getUuid(), r);
+        storageMap.put(r.getUuid(), r);
     }
 
     @Override
     protected Resume getResume(String uuid, int index) {
-        return resumeMap.get(uuid);
+        return storageMap.get(uuid);
     }
 
     @Override
     protected void deleteResume(String uuid, int index) {
-        resumeMap.remove(uuid);
+        storageMap.remove(uuid);
     }
 
     @Override
     protected void saveResume(Resume r, int index) {
-        resumeMap.put(r.getUuid(), r);
+        storageMap.put(r.getUuid(), r);
     }
 
     @Override
     public Resume[] getAll() {
-        return resumeMap.values().toArray(new Resume[0]);
+        return storageMap.values().toArray(new Resume[0]);
     }
 
     @Override
     public int size() {
-        return resumeMap.size();
+        return storageMap.size();
     }
 
     @Override
     protected int getIndex(Resume resume) {
-        if (resumeMap.containsValue(resume)) {
-            return 1;
-        }
-        return -1;
+        return storageMap.containsValue(resume) ? 1 : -1;
     }
 }

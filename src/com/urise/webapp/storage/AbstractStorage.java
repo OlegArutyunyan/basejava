@@ -2,51 +2,38 @@ package com.urise.webapp.storage;
 
 import com.urise.webapp.exception.ExistStorageException;
 import com.urise.webapp.exception.NotExistStorageException;
-import com.urise.webapp.exception.StorageException;
 import com.urise.webapp.model.Resume;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Iterator;
+import java.util.Objects;
 
 public abstract class AbstractStorage implements Storage{
     public final void update(Resume r) {
-        int index = getIndex(r);
-
-        if (index < 0) {
-            throw new NotExistStorageException(r.getUuid());
-        } else {
-            updateResume(r, index);
-        }
+        updateResume(r, checkIfExist(r, ""));
     }
 
     public final Resume get(String uuid) {
-        int index = getIndex(new Resume(uuid));
-
-        if (index < 0) {
-            throw new NotExistStorageException(uuid);
-        }
-        return getResume(uuid, index);
+        return getResume(uuid, checkIfExist(new Resume(uuid), ""));
     }
 
     public final void delete(String uuid) {
-        int index = getIndex(new Resume(uuid));
-
-        if (index < 0) {
-            throw new NotExistStorageException(uuid);
-        } else {
-            deleteResume(uuid, index);
-        }
+        deleteResume(uuid, checkIfExist(new Resume(uuid), ""));
     }
 
     public final void save(Resume r) {
-        int index = getIndex(r);
+        saveResume(r, checkIfExist(r, "save"));
+    }
 
-        if (index >= 0) {
+    private int checkIfExist(Resume r, String method){
+        int index = getIndex(r);
+        boolean saveMethodUsed = Objects.equals(method, "save");
+
+        if (saveMethodUsed && index >= 0) {
             throw new ExistStorageException(r.getUuid());
-        } else {
-            saveResume(r, index);
+        } else if (!saveMethodUsed && index < 0) {
+            throw new NotExistStorageException(r.getUuid());
         }
+
+        return index;
     }
 
     protected abstract int getIndex(Resume resume);
