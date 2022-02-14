@@ -1,8 +1,6 @@
 package com.urise.webapp.storage;
 
 
-import com.urise.webapp.exception.ExistStorageException;
-import com.urise.webapp.exception.NotExistStorageException;
 import com.urise.webapp.exception.StorageException;
 import com.urise.webapp.model.Resume;
 
@@ -22,21 +20,25 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
         size = 0;
     }
 
-    protected final void updateResume(Resume r, int index) {
+    protected final void updateResume(Resume r, Object searchKey) {
+        int index = (Integer) searchKey;
         storage[index] = r;
     }
 
-    protected final Resume getResume(String uuid, int index) {
+    protected final Resume getResume(Object searchKey) {
+        int index = (Integer) searchKey;
         return storage[index];
     }
 
-    protected final void deleteResume(String uuid, int index) {
+    protected final void deleteResume(Object searchKey) {
+        int index = (Integer) searchKey;
         System.arraycopy(storage, index + 1, storage, index, size - 1 - index);
         storage[size - 1] = null;
         size--;
     }
 
-    protected final void saveResume(Resume r, int index) {
+    protected final void saveResume(Resume r, Object searchKey) {
+        int index = (Integer) searchKey;
         if (size >= STORAGE_LIMIT) {
             throw new StorageException("Storage overflow!", r.getUuid());
         } else {
@@ -53,7 +55,11 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
         return size;
     }
 
-    protected abstract int getIndex(String uuid);
+    protected final boolean isExist (Object searchKey) {
+        return (Integer) searchKey >= 0;
+    }
 
-    protected abstract void saveResumeArray(Resume r, int index);
+    protected abstract Object getSearchKey(String uuid);
+
+    protected abstract void saveResumeArray(Resume r, Object searchKey);
 }

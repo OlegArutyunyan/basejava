@@ -4,6 +4,7 @@ import com.urise.webapp.model.Resume;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class ListStorage extends AbstractStorage {
     private final List<Resume> resumeList = new ArrayList<>();
@@ -12,19 +13,22 @@ public class ListStorage extends AbstractStorage {
         resumeList.clear();
     }
 
-    protected final void updateResume (Resume r, int index) {
+    protected final void updateResume (Resume r, Object searchKey) {
+        int index = (Integer) searchKey;
         resumeList.set(index, r);
     }
 
-    protected final Resume getResume(String uuid, int index) {
+    protected final Resume getResume(Object searchKey) {
+        int index = (Integer) searchKey;
         return resumeList.get(index);
     }
 
-    protected final void deleteResume(String uuid, int index) {
+    protected final void deleteResume(Object searchKey) {
+        int index = (Integer) searchKey;
         resumeList.remove(index);
     }
 
-    protected final void saveResume(Resume r, int index) {
+    protected final void saveResume(Resume r, Object searchKey) {
         resumeList.add(r);
     }
 
@@ -36,7 +40,7 @@ public class ListStorage extends AbstractStorage {
         return resumeList.size();
     }
 
-    protected int getIndex(String uuid) {
+    protected Object getSearchKey(String uuid) {
         for (int i = 0; i < resumeList.size(); i++) {
             if (uuid.equals(resumeList.get(i).getUuid())) {
                 return i;
@@ -44,4 +48,9 @@ public class ListStorage extends AbstractStorage {
         }
         return -1;
     }
+
+    protected final boolean isExist (Object searchKey) {
+        return (Integer) searchKey >= 0;
+    }
+
 }
