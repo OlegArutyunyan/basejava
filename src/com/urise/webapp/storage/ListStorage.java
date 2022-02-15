@@ -30,8 +30,7 @@ public class ListStorage extends AbstractStorage {
         resumeList.add(r);
     }
 
-    public final List<Resume> getAllSorted() {
-        resumeList.sort(RESUME_COMPARATOR);
+    public final List<Resume> createResumeList() {
         return resumeList;
     }
 
