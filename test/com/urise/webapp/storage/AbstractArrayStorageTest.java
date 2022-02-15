@@ -14,7 +14,7 @@ import static com.urise.webapp.storage.AbstractArrayStorage.STORAGE_LIMIT;
 import static org.junit.Assert.*;
 
 public abstract class AbstractArrayStorageTest  extends AbstractStorageTest{
-    private static final String NOT_EXIST_UUID = "uuid16";
+
     private final Storage storage;
 
     public AbstractArrayStorageTest(Storage storage) {
@@ -26,11 +26,11 @@ public abstract class AbstractArrayStorageTest  extends AbstractStorageTest{
     public void saveStorageOverflow() {
         for (int i = storage.size() + 1; i <= STORAGE_LIMIT; i++) {
             try {
-                storage.save(new Resume("uuid" + i));
+                storage.save(new Resume("uuid" + i, "User Name"));
             } catch (Exception e) {
                 fail("Storage overflow occurred earlier than expected");
             }
         }
-        storage.save(new Resume(NOT_EXIST_UUID));
+        storage.save(new Resume(NOT_EXIST_UUID, NOT_EXIST_FULLNAME));
     }
 }

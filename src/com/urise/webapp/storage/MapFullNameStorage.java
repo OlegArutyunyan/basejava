@@ -4,7 +4,7 @@ import com.urise.webapp.model.Resume;
 
 import java.util.*;
 
-public class MapStorage extends AbstractStorage {
+public class MapFullNameStorage extends AbstractStorage {
     private final Map<String, Resume> storageMap = new HashMap<>();
 
     @Override
@@ -19,14 +19,12 @@ public class MapStorage extends AbstractStorage {
 
     @Override
     protected Resume getResume(Object searchKey) {
-        String uuid = (String) searchKey;
-        return storageMap.get(uuid);
+        return storageMap.get((String) searchKey);
     }
 
     @Override
     protected void deleteResume(Object searchKey) {
-        String uuid = (String) searchKey;
-        storageMap.remove(uuid);
+        storageMap.remove((String) searchKey);
     }
 
     @Override
@@ -35,8 +33,10 @@ public class MapStorage extends AbstractStorage {
     }
 
     @Override
-    public Resume[] getAll() {
-        return storageMap.values().toArray(new Resume[0]);
+    public List<Resume> getAllSorted() {
+        List<Resume> resumes = new ArrayList<>(storageMap.values());
+        resumes.sort(RESUME_COMPARATOR);
+        return resumes;
     }
 
     @Override
@@ -46,10 +46,15 @@ public class MapStorage extends AbstractStorage {
 
     @Override
     protected Object getSearchKey(String uuid) {
-        return storageMap.containsKey(uuid) ? uuid : "";
+        return storageMap.get(uuid).getFullName();
     }
 
     protected final boolean isExist (Object searchKey) {
-        return !Objects.equals(searchKey, "");
+        for (Map.Entry<String, Resume> resume : storageMap.entrySet()) {
+            if (resume.getValue().getFullName().equals(searchKey)) {
+                return true;
+            }
+        }
+        return false;
     }
 }

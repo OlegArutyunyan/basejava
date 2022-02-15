@@ -3,6 +3,7 @@ package com.urise.webapp.storage;
 import com.urise.webapp.model.Resume;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
@@ -13,27 +14,25 @@ public class ListStorage extends AbstractStorage {
         resumeList.clear();
     }
 
-    protected final void updateResume (Resume r, Object searchKey) {
-        int index = (Integer) searchKey;
-        resumeList.set(index, r);
+    protected final void updateResume (Resume r, Object index) {
+        resumeList.set((int) index, r);
     }
 
-    protected final Resume getResume(Object searchKey) {
-        int index = (Integer) searchKey;
-        return resumeList.get(index);
+    protected final Resume getResume(Object index) {
+        return resumeList.get((int) index);
     }
 
-    protected final void deleteResume(Object searchKey) {
-        int index = (Integer) searchKey;
-        resumeList.remove(index);
+    protected final void deleteResume(Object index) {
+        resumeList.remove((int) index);
     }
 
     protected final void saveResume(Resume r, Object searchKey) {
         resumeList.add(r);
     }
 
-    public final Resume[] getAll() {
-        return resumeList.toArray(new Resume[0]);
+    public final List<Resume> getAllSorted() {
+        resumeList.sort(RESUME_COMPARATOR);
+        return resumeList;
     }
 
     public final int size() {

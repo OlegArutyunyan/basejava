@@ -4,7 +4,7 @@ package com.urise.webapp.storage;
 import com.urise.webapp.exception.StorageException;
 import com.urise.webapp.model.Resume;
 
-import java.util.Arrays;
+import java.util.*;
 
 /**
  * Array based storage for Resumes
@@ -20,35 +20,33 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
         size = 0;
     }
 
-    protected final void updateResume(Resume r, Object searchKey) {
-        int index = (Integer) searchKey;
-        storage[index] = r;
+    protected final void updateResume(Resume r, Object index) {
+        storage[(int) index] = r;
     }
 
-    protected final Resume getResume(Object searchKey) {
-        int index = (Integer) searchKey;
-        return storage[index];
+    protected final Resume getResume(Object index) {
+        return storage[(int) index];
     }
 
-    protected final void deleteResume(Object searchKey) {
-        int index = (Integer) searchKey;
-        System.arraycopy(storage, index + 1, storage, index, size - 1 - index);
+    protected final void deleteResume(Object index) {
+        System.arraycopy(storage, (int) index + 1, storage, (int) index, size - 1 - (int) index);
         storage[size - 1] = null;
         size--;
     }
 
-    protected final void saveResume(Resume r, Object searchKey) {
-        int index = (Integer) searchKey;
+    protected final void saveResume(Resume r, Object index) {
         if (size >= STORAGE_LIMIT) {
             throw new StorageException("Storage overflow!", r.getUuid());
         } else {
-            saveResumeArray(r, index);
+            saveResumeArray(r, (int) index);
             size++;
         }
     }
 
-    public Resume[] getAll() {
-        return Arrays.copyOfRange(storage, 0, size);
+    public List<Resume> getAllSorted() {
+        List<Resume> resumes = Arrays.asList(storage);
+        resumes.sort(RESUME_COMPARATOR);
+        return resumes;
     }
 
     public int size() {
@@ -61,5 +59,20 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
 
     protected abstract Object getSearchKey(String uuid);
 
-    protected abstract void saveResumeArray(Resume r, Object searchKey);
+    protected abstract void saveResumeArray(Resume r, Integer searchKey);
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

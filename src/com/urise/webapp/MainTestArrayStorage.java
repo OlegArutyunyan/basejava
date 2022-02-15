@@ -5,6 +5,8 @@ import com.urise.webapp.storage.ArrayStorage;
 import com.urise.webapp.storage.SortedArrayStorage;
 import com.urise.webapp.storage.Storage;
 
+import java.util.List;
+
 /**
  * Test for your com.urise.webapp.storage.ArrayStorage implementation
  */
@@ -40,7 +42,7 @@ public class MainTestArrayStorage {
 
     static void printAll() {
         System.out.println("\nGet All");
-        for (Resume r : ARRAY_STORAGE.getAll()) {
+        for (Resume r : ARRAY_STORAGE.getAllSorted().toArray(new Resume[0])) {
             System.out.println(r);
         }
     }
