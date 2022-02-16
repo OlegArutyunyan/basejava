@@ -1,9 +1,11 @@
 package com.urise.webapp.storage;
 
-import com.urise.webapp.exception.NotExistStorageException;
 import com.urise.webapp.model.Resume;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class MapFullNameStorage extends AbstractStorage {
     private final Map<String, Resume> storageMap = new HashMap<>();
@@ -20,12 +22,12 @@ public class MapFullNameStorage extends AbstractStorage {
 
     @Override
     protected Resume getResume(Object searchKey) {
-        return storageMap.get(mapKey(searchKey));
+        return (Resume) searchKey;
     }
 
     @Override
     protected void deleteResume(Object searchKey) {
-        storageMap.remove(mapKey(searchKey));
+        storageMap.values().remove((Resume) searchKey);
     }
 
     @Override
@@ -45,19 +47,10 @@ public class MapFullNameStorage extends AbstractStorage {
 
     @Override
     protected Object getSearchKey(String uuid) {
-        return storageMap.containsKey(uuid) ? storageMap.get(uuid).getFullName() : "";
+        return storageMap.containsKey(uuid) ? storageMap.get(uuid) : "";
     }
 
-    protected final boolean isExist (Object searchKey) {
-        return mapKey(searchKey) != null;
-    }
-
-    private String mapKey (Object searchKey) {
-        for (Map.Entry<String, Resume> resume : storageMap.entrySet()) {
-            if (resume.getValue().getFullName().equals(searchKey)) {
-                return resume.getKey();
-            }
-        }
-        return null;
+    protected final boolean isExist(Object searchKey) {
+        return searchKey != "";
     }
 }

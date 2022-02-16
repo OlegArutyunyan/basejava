@@ -4,7 +4,8 @@ package com.urise.webapp.storage;
 import com.urise.webapp.exception.StorageException;
 import com.urise.webapp.model.Resume;
 
-import java.util.*;
+import java.util.Arrays;
+import java.util.List;
 
 /**
  * Array based storage for Resumes
@@ -37,10 +38,9 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
     protected final void saveResume(Resume r, Object index) {
         if (size >= STORAGE_LIMIT) {
             throw new StorageException("Storage overflow!", r.getUuid());
-        } else {
-            saveResumeArray(r, (int) index);
-            size++;
         }
+        saveResumeArray(r, (int) index);
+        size++;
     }
 
     public List<Resume> createResumeList() {
@@ -51,7 +51,7 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
         return size;
     }
 
-    protected final boolean isExist (Object searchKey) {
+    protected final boolean isExist(Object searchKey) {
         return (Integer) searchKey >= 0;
     }
 
@@ -59,18 +59,3 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
 
     protected abstract void saveResumeArray(Resume r, Integer searchKey);
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

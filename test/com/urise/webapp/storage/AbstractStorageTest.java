@@ -4,9 +4,13 @@ import com.urise.webapp.exception.ExistStorageException;
 import com.urise.webapp.exception.NotExistStorageException;
 import com.urise.webapp.exception.StorageException;
 import com.urise.webapp.model.Resume;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import static com.urise.webapp.storage.AbstractArrayStorage.STORAGE_LIMIT;
 import static org.junit.Assert.*;
@@ -16,7 +20,7 @@ public abstract class AbstractStorageTest {
     private static final String EXIST_FULLNAME = "Mark Brown";
     protected static final String NOT_EXIST_UUID = "uuid16";
     protected static final String NOT_EXIST_FULLNAME = "Herman Flow";
-    protected static final Resume[] EXPECTED_RESUME = new Resume[3];
+    protected static final List<Resume> EXPECTED_RESUME_LIST = new ArrayList<>();
     protected final Storage storage;
 
     public AbstractStorageTest(Storage storage) {
@@ -25,9 +29,10 @@ public abstract class AbstractStorageTest {
 
     @BeforeClass
     public static void setUpResumeModel() {
-        EXPECTED_RESUME[0] = new Resume("uuid1", "John Onion");
-        EXPECTED_RESUME[1] = new Resume("uuid2", "Mark Brown");
-        EXPECTED_RESUME[2] = new Resume("uuid3", "Tomas Dark");
+        EXPECTED_RESUME_LIST.clear();
+        EXPECTED_RESUME_LIST.add(new Resume("uuid1", "John Onion"));
+        EXPECTED_RESUME_LIST.add(new Resume("uuid2", "Mark Brown"));
+        EXPECTED_RESUME_LIST.add(new Resume("uuid3", "Tomas Dark"));
     }
 
     @Before
@@ -81,9 +86,10 @@ public abstract class AbstractStorageTest {
 
     @Test
     public void save() {
-        storage.save(new Resume(NOT_EXIST_UUID, NOT_EXIST_FULLNAME));
+        Resume resume = new Resume(NOT_EXIST_UUID, NOT_EXIST_FULLNAME);
+        storage.save(resume);
         assertEquals(4, storage.size());
-        storage.get(NOT_EXIST_UUID);
+        assertEquals(resume, storage.get(NOT_EXIST_UUID));
     }
 
     @Test(expected = ExistStorageException.class)
@@ -93,7 +99,7 @@ public abstract class AbstractStorageTest {
 
     @Test
     public void getAllSorted() {
-        assertArrayEquals(EXPECTED_RESUME, storage.getAllSorted().toArray(new Resume[0]));
+        assertEquals(EXPECTED_RESUME_LIST, storage.getAllSorted());
     }
 
     @Test
