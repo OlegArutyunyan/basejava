@@ -10,7 +10,7 @@ import java.util.List;
 /**
  * Array based storage for Resumes
  */
-public abstract class AbstractArrayStorage extends AbstractStorage {
+public abstract class AbstractArrayStorage extends AbstractStorage<Integer> {
     protected static final int STORAGE_LIMIT = 10;
 
     protected Resume[] storage = new Resume[STORAGE_LIMIT];
@@ -21,25 +21,25 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
         size = 0;
     }
 
-    protected final void updateResume(Resume r, Object index) {
-        storage[(int) index] = r;
+    protected final void updateResume(Resume r, Integer index) {
+        storage[index] = r;
     }
 
-    protected final Resume getResume(Object index) {
-        return storage[(int) index];
+    protected final Resume getResume(Integer index) {
+        return storage[index];
     }
 
-    protected final void deleteResume(Object index) {
-        System.arraycopy(storage, (int) index + 1, storage, (int) index, size - 1 - (int) index);
+    protected final void deleteResume(Integer index) {
+        System.arraycopy(storage, index + 1, storage, index, size - 1 - index);
         storage[size - 1] = null;
         size--;
     }
 
-    protected final void saveResume(Resume r, Object index) {
+    protected final void saveResume(Resume r, Integer index) {
         if (size >= STORAGE_LIMIT) {
             throw new StorageException("Storage overflow!", r.getUuid());
         }
-        saveResumeArray(r, (int) index);
+        saveResumeArray(r, index);
         size++;
     }
 
@@ -51,11 +51,11 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
         return size;
     }
 
-    protected final boolean isExist(Object searchKey) {
-        return (Integer) searchKey >= 0;
+    protected final boolean isExist(Integer searchKey) {
+        return searchKey >= 0;
     }
 
-    protected abstract Object getSearchKey(String uuid);
+    protected abstract Integer getSearchKey(String uuid);
 
     protected abstract void saveResumeArray(Resume r, Integer searchKey);
 }
