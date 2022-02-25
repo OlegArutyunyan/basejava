@@ -22,6 +22,6 @@ public abstract class AbstractArrayStorageTest  extends AbstractStorageTest{
                 fail("Storage overflow occurred earlier than expected");
             }
         }
-        storage.save(new Resume(NOT_EXIST_UUID, NOT_EXIST_FULLNAME));
+        storage.save(createNotExistingResume());
     }
 }

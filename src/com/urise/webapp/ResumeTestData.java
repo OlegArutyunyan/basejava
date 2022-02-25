@@ -1,4 +1,6 @@
-package com.urise.webapp.model;
+package com.urise.webapp;
+
+import com.urise.webapp.model.*;
 
 import java.time.YearMonth;
 import java.util.ArrayList;
@@ -8,45 +10,45 @@ public class ResumeTestData {
     static Resume resume = new Resume("Григорий Кислин");
 
     public static void main(String[] args) {
-        fillContacts();
-        fillSections();
+        fillContacts(resume);
+        fillSections(resume);
         System.out.println(resume.getFullName());
-        printContacts();
+        printContacts(resume);
         System.out.println();
-        printSections();
+        printSections(resume);
     }
 
-    private static void printContacts() {
+    public static void printContacts(Resume resume) {
         for (ContactType contact : ContactType.values()) {
-            System.out.println(contact.getTitle() + ": " + resume.getContacts(contact));
+            System.out.println(contact.getTitle() + ": " + resume.getContact(contact));
         }
     }
 
-    private static void printSections() {
+    public static void printSections(Resume resume) {
         for (SectionType section : SectionType.values()) {
             System.out.println(section.getTitle());
-            System.out.println(resume.getSections(section));
+            System.out.println(resume.getSection(section));
             System.out.println();
         }
     }
 
-    private static void fillContacts() {
+    public static void fillContacts(Resume resume) {
         String[] contactFields = {"+7(921) 855-0482", "grigory.kislin", "gkislin@yandex.ru"
                 , "Профиль LinkedIn", "Профиль GitHub", "Профиль Stackoverflow", "Домашняя страница"};
         int i = 0;
 
         for (ContactType contact : ContactType.values()) {
-            resume.setContacts(contact, String.valueOf(new SimpleLineSections(contactFields[i++])));
+            resume.setContact(contact, String.valueOf(new SimpleLineSections(contactFields[i++])));
         }
     }
 
-    private static void fillSections() {
+    public static void fillSections(Resume resume) {
         for (SectionType section : SectionType.values()) {
             switch (section) {
-                case PERSONAL -> resume.setSections(SectionType.PERSONAL, new SimpleLineSections
+                case PERSONAL -> resume.setSection(SectionType.PERSONAL, new SimpleLineSections
                         ("Ведущий стажировок и корпоративного обучения по Java Web и Enterprise технологиям"));
 
-                case OBJECTIVE -> resume.setSections(SectionType.OBJECTIVE, new SimpleLineSections
+                case OBJECTIVE -> resume.setSection(SectionType.OBJECTIVE, new SimpleLineSections
                         ("Аналитический склад ума, сильная логика, креативность, инициативность. " +
                                 "Пурист кода и архитектуры."));
 
@@ -61,7 +63,7 @@ public class ResumeTestData {
                     objectiveList.add("Реализация двухфакторной аутентификации для онлайн платформы управления " +
                             "проектами Wrike. Интеграция с Twilio, DuoSecurity, Google Authenticator, Jira, Zendesk.");
 
-                    resume.setSections(SectionType.ACHIEVEMENT, new ListSections(objectiveList));
+                    resume.setSection(SectionType.ACHIEVEMENT, new ListSections(objectiveList));
                 }
 
                 case QUALIFICATIONS -> {
@@ -72,7 +74,7 @@ public class ResumeTestData {
                     qualificationsList.add("DB: PostgreSQL(наследование, pgplsql, PL/Python), Redis (Jedis), H2, Oracle,");
                     qualificationsList.add("MySQL, SQLite, MS SQL, HSQLDB");
 
-                    resume.setSections(SectionType.QUALIFICATIONS, new ListSections(qualificationsList));
+                    resume.setSection(SectionType.QUALIFICATIONS, new ListSections(qualificationsList));
                 }
 
                 case EXPERIENCE -> {
@@ -99,7 +101,7 @@ public class ResumeTestData {
                             , "Автор проекта."
                             , "Создание, организация и проведение Java онлайн проектов и стажировок."));
 
-                    resume.setSections(SectionType.EXPERIENCE, new Organization(experienceList));
+                    resume.setSection(SectionType.EXPERIENCE, new Organization(experienceList));
                 }
 
                 case EDUCATION -> {
@@ -119,7 +121,7 @@ public class ResumeTestData {
                             , "Курс \"Объектно-ориентированный анализ ИС. " +
                             "Концептуальное моделирование на UML.\""));
 
-                    resume.setSections(SectionType.EDUCATION, new Organization(educationList));
+                    resume.setSection(SectionType.EDUCATION, new Organization(educationList));
                 }
             }
         }

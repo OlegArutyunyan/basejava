@@ -3,8 +3,8 @@ package com.urise.webapp.model;
 import java.util.List;
 import java.util.Objects;
 
-public class Organization extends Section{
-    protected List<Experience> organizations;
+public class Organization extends AbstractSection {
+    private final List<Experience> organizations;
 
     public Organization(List<Experience> data) {
         Objects.requireNonNull(data, "item must not be null");
@@ -23,5 +23,18 @@ public class Organization extends Section{
             result.append(listItem).append(System.lineSeparator());
         }
         return result.toString();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Organization that = (Organization) o;
+        return Objects.equals(organizations, that.organizations);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(organizations);
     }
 }

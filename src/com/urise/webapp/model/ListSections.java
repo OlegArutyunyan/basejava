@@ -3,8 +3,8 @@ package com.urise.webapp.model;
 import java.util.List;
 import java.util.Objects;
 
-public class ListSections extends Section{
-    protected List<String> personalData;
+public class ListSections extends AbstractSection {
+    private final List<String> personalData;
 
     public ListSections(List<String> data) {
         Objects.requireNonNull(data, "item must not be null");
@@ -23,5 +23,18 @@ public class ListSections extends Section{
             result.append(listItem).append(System.lineSeparator());
         }
         return result.toString();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        ListSections that = (ListSections) o;
+        return Objects.equals(personalData, that.personalData);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(personalData);
     }
 }
