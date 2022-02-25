@@ -1,5 +1,7 @@
 package com.urise.webapp.model;
 
+import java.util.EnumMap;
+import java.util.Map;
 import java.util.Objects;
 import java.util.UUID;
 
@@ -11,7 +13,7 @@ public class Resume{
     // Unique identifier
     private final String uuid;
 
-    private String fullName;
+    private final String fullName;
 
     public Resume(String fullName) {
         this(UUID.randomUUID().toString(), fullName);
@@ -24,16 +26,31 @@ public class Resume{
         this.fullName = fullName;
     }
 
+    Map<ContactType, String> contacts = new EnumMap<>(ContactType.class);
+    Map<SectionType, Section> sections = new EnumMap<>(SectionType.class);
+
+    public String getContacts(ContactType type) {
+        return contacts.get(type);
+    }
+
+    public Object getSections(SectionType type) {
+        return sections.get(type);
+    }
+
+    public void setContacts(ContactType type, String value) {
+        contacts.put(type, value);
+    }
+
+    public void setSections(SectionType type, Section value) {
+        sections.put(type, value);
+    }
+
     public String getUuid() {
         return uuid;
     }
 
     public String getFullName() {
         return fullName;
-    }
-
-    public void setFullName(String fullName) {
-        this.fullName = fullName;
     }
 
     @Override
