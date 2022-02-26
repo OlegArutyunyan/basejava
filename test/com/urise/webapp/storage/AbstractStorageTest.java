@@ -10,16 +10,16 @@ import org.junit.Test;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.urise.webapp.ResumeTestData.fillContacts;
-import static com.urise.webapp.ResumeTestData.fillSections;
-import static org.junit.Assert.*;
+import static com.urise.webapp.ResumeTestData.createResume;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertSame;
 
 public abstract class AbstractStorageTest {
-    private static final String EXIST_UUID = "uuid2";
-    private static final String EXIST_FULLNAME = "Mark Brown";
     protected static final String NOT_EXIST_UUID = "uuid16";
     protected static final String NOT_EXIST_FULLNAME = "Herman Flow";
     protected static final List<Resume> EXPECTED_RESUME_LIST = new ArrayList<>();
+    private static final String EXIST_UUID = "uuid2";
+    private static final String EXIST_FULLNAME = "Mark Brown";
     protected final Storage storage;
 
     public AbstractStorageTest(Storage storage) {
@@ -29,29 +29,22 @@ public abstract class AbstractStorageTest {
     @BeforeClass
     public static void setUpResumeModel() {
         EXPECTED_RESUME_LIST.clear();
-        EXPECTED_RESUME_LIST.add(new Resume("uuid1", "John Onion"));
-        EXPECTED_RESUME_LIST.add(new Resume("uuid2", "Mark Brown"));
-        EXPECTED_RESUME_LIST.add(new Resume("uuid3", "Tomas Dark"));
-
-        for (Resume resume: EXPECTED_RESUME_LIST) {
-            fillContacts(resume);
-            fillSections(resume);
-        }
+        EXPECTED_RESUME_LIST.add(createResume("uuid1", "John Onion"));
+        EXPECTED_RESUME_LIST.add(createResume("uuid2", "Mark Brown"));
+        EXPECTED_RESUME_LIST.add(createResume("uuid3", "Tomas Dark"));
     }
 
     @Before
     public void setUp() {
         List<Resume> resumeList = new ArrayList<>();
 
-        resumeList.add(0, new Resume("uuid1", "John Onion"));
-        resumeList.add(1, new Resume("uuid3", "Tomas Dark"));
-        resumeList.add(2, new Resume("uuid2", "Mark Brown"));
+        resumeList.add(createResume("uuid1", "John Onion"));
+        resumeList.add(createResume("uuid3", "Tomas Dark"));
+        resumeList.add(createResume("uuid2", "Mark Brown"));
 
         storage.clear();
 
-        for (Resume resume: resumeList) {
-            fillContacts(resume);
-            fillSections(resume);
+        for (Resume resume : resumeList) {
             storage.save(resume);
         }
     }
@@ -64,7 +57,7 @@ public abstract class AbstractStorageTest {
 
     @Test
     public void update() {
-        Resume resume = createExistingResume();
+        Resume resume = createResume(EXIST_UUID, EXIST_FULLNAME);
 
         storage.update(resume);
         assertSame(resume, storage.get(EXIST_UUID));
@@ -72,14 +65,12 @@ public abstract class AbstractStorageTest {
 
     @Test(expected = NotExistStorageException.class)
     public void updateNotExist() {
-        Resume resume = createNotExistingResume();
-
-        storage.update(resume);
+        storage.update(createResume(NOT_EXIST_UUID, NOT_EXIST_FULLNAME));
     }
 
     @Test
     public void get() {
-        assertEquals(createExistingResume(), storage.get(EXIST_UUID));
+        assertEquals(createResume(EXIST_UUID, EXIST_FULLNAME), storage.get(EXIST_UUID));
     }
 
     @Test(expected = NotExistStorageException.class)
@@ -101,7 +92,7 @@ public abstract class AbstractStorageTest {
 
     @Test
     public void save() {
-        Resume resume = createNotExistingResume();
+        Resume resume = createResume(NOT_EXIST_UUID, NOT_EXIST_FULLNAME);
         storage.save(resume);
         assertEquals(4, storage.size());
         assertEquals(resume, storage.get(NOT_EXIST_UUID));
@@ -109,7 +100,7 @@ public abstract class AbstractStorageTest {
 
     @Test(expected = ExistStorageException.class)
     public void saveExist() {
-        storage.save(createExistingResume());
+        storage.save(createResume(EXIST_UUID, EXIST_FULLNAME));
     }
 
     @Test
@@ -120,19 +111,5 @@ public abstract class AbstractStorageTest {
     @Test
     public void size() {
         assertEquals(3, storage.size());
-    }
-
-    protected Resume createExistingResume () {
-        Resume resume = new Resume(EXIST_UUID, EXIST_FULLNAME);
-        fillContacts(resume);
-        fillSections(resume);
-        return resume;
-    }
-
-    protected Resume createNotExistingResume () {
-        Resume resume = new Resume(NOT_EXIST_UUID, NOT_EXIST_FULLNAME);
-        fillContacts(resume);
-        fillSections(resume);
-        return resume;
     }
 }
