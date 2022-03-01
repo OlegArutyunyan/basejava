@@ -3,24 +3,27 @@ package com.urise.webapp.model;
 import java.util.List;
 import java.util.Objects;
 
-public class Organization extends AbstractSection {
-    private final List<Experience> organizations;
+public class Organization {
 
-    public Organization(List<Experience> data) {
-        Objects.requireNonNull(data, "item must not be null");
-        this.organizations = data;
-    }
+    private final String name;
+    private final String url;
+    private final List<Experience> experience;
 
-    public List<Experience> getOrganizations() {
-        return organizations;
+    public Organization(String name, String url, List<Experience> experience) {
+        Objects.requireNonNull(name, "name must not be null");
+        Objects.requireNonNull(experience, "experience date must not be null");
+        this.name = name;
+        this.url = url;
+        this.experience = experience;
     }
 
     @Override
     public String toString() {
         StringBuilder result = new StringBuilder();
 
-        for (Experience listItem : organizations) {
-            result.append(listItem).append(System.lineSeparator());
+        result.append(name).append(" ").append(url).append(System.lineSeparator());
+        for (Experience data : experience) {
+            result.append(data).append(System.lineSeparator());
         }
         return result.toString();
     }
@@ -30,11 +33,11 @@ public class Organization extends AbstractSection {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Organization that = (Organization) o;
-        return Objects.equals(organizations, that.organizations);
+        return name.equals(that.name) && Objects.equals(url, that.url) && experience.equals(that.experience);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(organizations);
+        return Objects.hash(name, url, experience);
     }
 }

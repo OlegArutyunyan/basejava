@@ -8,31 +8,31 @@ import java.util.List;
 public class ListStorage extends AbstractStorage<Integer> {
     private final List<Resume> resumeList = new ArrayList<>();
 
-    public final void clear() {
+    public void clear() {
         resumeList.clear();
     }
 
-    protected final void updateResume (Resume r, Integer index) {
+    protected void updateResume(Resume r, Integer index) {
         resumeList.set(index, r);
     }
 
-    protected final Resume getResume(Integer index) {
+    protected Resume getResume(Integer index) {
         return resumeList.get(index);
     }
 
-    protected final void deleteResume(Integer index) {
+    protected void deleteResume(Integer index) {
         resumeList.remove((int) index);
     }
 
-    protected final void saveResume(Resume r, Integer searchKey) {
+    protected void saveResume(Resume r, Integer searchKey) {
         resumeList.add(r);
     }
 
-    public final List<Resume> createResumeList() {
+    public List<Resume> createResumeList() {
         return resumeList;
     }
 
-    public final int size() {
+    public int size() {
         return resumeList.size();
     }
 
@@ -45,7 +45,7 @@ public class ListStorage extends AbstractStorage<Integer> {
         return -1;
     }
 
-    protected final boolean isExist (Integer searchKey) {
+    protected boolean isExist(Integer searchKey) {
         return searchKey >= 0;
     }
 

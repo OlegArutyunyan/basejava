@@ -75,59 +75,59 @@ public class ResumeTestData {
                 }
 
                 case EXPERIENCE -> {
-                    List<Experience> experienceList = new ArrayList<>();
-                    List<ExperienceDate> experienceDatesJavaops = new ArrayList<>();
-                    List<ExperienceDate> experienceDatesWrike = new ArrayList<>();
-                    List<ExperienceDate> experienceDatesRit = new ArrayList<>();
+                    List<Organization> organizationList = new ArrayList<>();
+                    List<Experience> experienceDatesJavaops = new ArrayList<>();
+                    List<Experience> experienceDatesWrike = new ArrayList<>();
+                    List<Experience> experienceDatesRit = new ArrayList<>();
 
-                    experienceDatesJavaops.add(new ExperienceDate(YearMonth.of(2013, 10), YearMonth.now()
+                    experienceDatesJavaops.add(new Experience(YearMonth.of(2013, 10), YearMonth.now()
                             , "Автор проекта."
                             , "Создание, организация и проведение Java онлайн проектов и стажировок."));
-                    experienceList.add(
-                            new Experience("Java Online Projects", "http://javaops.ru/"
+                    organizationList.add(
+                            new Organization("Java Online Projects", "http://javaops.ru/"
                                     , experienceDatesJavaops));
 
 
-                    experienceDatesWrike.add(new ExperienceDate(YearMonth.of(2014, 10)
+                    experienceDatesWrike.add(new Experience(YearMonth.of(2014, 10)
                             , YearMonth.of(2016, 1)
                             , "Старший разработчик (backend)."
                             , "Проектирование и разработка онлайн платформы управления проектами Wrike "
                             + "(Java 8 API, Maven, Spring, MyBatis, Guava, Vaadin, PostgreSQL, Redis). "
                             + "Двухфакторная аутентификация, авторизация по OAuth1, OAuth2, JWT SSO."));
-                    experienceList.add(new Experience("Wrike", "https://www.wrike.com/"
+                    organizationList.add(new Organization("Wrike", "https://www.wrike.com/"
                             , experienceDatesWrike));
 
-                    experienceDatesRit.add(new ExperienceDate(YearMonth.of(2012, 4)
+                    experienceDatesRit.add(new Experience(YearMonth.of(2012, 4)
                             , YearMonth.of(2014, 10)
                             , "Автор проекта."
                             , "Создание, организация и проведение Java онлайн проектов и стажировок."));
-                    experienceList.add(new Experience("RIT Center", "", experienceDatesRit));
+                    organizationList.add(new Organization("RIT Center", "", experienceDatesRit));
 
-                    resume.setSection(SectionType.EXPERIENCE, new Organization(experienceList));
+                    resume.setSection(SectionType.EXPERIENCE, new ListOrganization(organizationList));
                 }
 
                 case EDUCATION -> {
-                    List<Experience> educationList = new ArrayList<>();
-                    List<ExperienceDate> educationDatesCoursera = new ArrayList<>();
-                    List<ExperienceDate> educationDatesIfmo = new ArrayList<>();
+                    List<Organization> educationList = new ArrayList<>();
+                    List<Experience> educationDatesCoursera = new ArrayList<>();
+                    List<Experience> educationDatesIfmo = new ArrayList<>();
 
-                    educationDatesCoursera.add(new ExperienceDate(YearMonth.of(2013, 3)
+                    educationDatesCoursera.add(new Experience(YearMonth.of(2013, 3)
                             , YearMonth.of(2013, 5)
                             , "", "\"Functional Programming Principles in Scala\" by Martin Odersky"));
-                    educationList.add(new Experience("Coursera", "https://www.coursera.org/course/progfun"
+                    educationList.add(new Organization("Coursera", "https://www.coursera.org/course/progfun"
                             , educationDatesCoursera));
 
-                    educationDatesIfmo.add(new ExperienceDate(YearMonth.of(1993, 9)
+                    educationDatesIfmo.add(new Experience(YearMonth.of(1993, 9)
                             , YearMonth.of(1996, 7), ""
                             , "Аспирантура (программист С, С++)"));
-                    educationDatesIfmo.add(new ExperienceDate(YearMonth.of(1987, 9)
+                    educationDatesIfmo.add(new Experience(YearMonth.of(1987, 9)
                             , YearMonth.of(1993, 7), ""
                             , "Инженер (программист Fortran, C)"));
-                    educationList.add(new Experience("Санкт-Петербургский национальный исследовательский " +
+                    educationList.add(new Organization("Санкт-Петербургский национальный исследовательский " +
                             "университет информационных технологий, механики и оптики", "http://www.ifmo.ru/"
                             , educationDatesIfmo));
 
-                    resume.setSection(SectionType.EDUCATION, new Organization(educationList));
+                    resume.setSection(SectionType.EDUCATION, new ListOrganization(educationList));
                 }
             }
         }
