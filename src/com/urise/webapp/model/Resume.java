@@ -1,7 +1,5 @@
 package com.urise.webapp.model;
 
-import com.urise.webapp.ResumeTestData;
-
 import java.util.EnumMap;
 import java.util.Objects;
 import java.util.UUID;

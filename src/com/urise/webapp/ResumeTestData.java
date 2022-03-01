@@ -7,14 +7,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ResumeTestData {
-    static Resume resume = new Resume("Григорий Кислин");
 
     public static void main(String[] args) {
-        fillContacts(resume);
-        fillSections(resume);
+        Resume resume = createResume("uuid1", "Григорий Кислин");
         System.out.println(resume.getFullName());
         printContacts(resume);
-        System.out.println();
         printSections(resume);
     }
 
@@ -26,12 +23,14 @@ public class ResumeTestData {
     }
 
     private static void printContacts(Resume resume) {
+        System.out.println();
         for (ContactType contact : ContactType.values()) {
             System.out.println(contact.getTitle() + ": " + resume.getContact(contact));
         }
     }
 
     private static void printSections(Resume resume) {
+        System.out.println();
         for (SectionType section : SectionType.values()) {
             System.out.println(section.getTitle());
             System.out.println(resume.getSection(section));
@@ -77,19 +76,56 @@ public class ResumeTestData {
 
                 case EXPERIENCE -> {
                     List<Experience> experienceList = new ArrayList<>();
+                    List<ExperienceDate> experienceDatesJavaops = new ArrayList<>();
+                    List<ExperienceDate> experienceDatesWrike = new ArrayList<>();
+                    List<ExperienceDate> experienceDatesRit = new ArrayList<>();
 
-                    experienceList.add(new Experience("Java Online Projects", "http://javaops.ru/", YearMonth.of(2013, 10), YearMonth.now(), "Автор проекта.", "Создание, организация и проведение Java онлайн проектов и стажировок."));
-                    experienceList.add(new Experience("Wrike", "https://www.wrike.com/", YearMonth.of(2014, 10), YearMonth.of(2016, 1), "Старший разработчик (backend).", "Проектирование и разработка онлайн платформы управления проектами Wrike " + "(Java 8 API, Maven, Spring, MyBatis, Guava, Vaadin, PostgreSQL, Redis). " + "Двухфакторная аутентификация, авторизация по OAuth1, OAuth2, JWT SSO."));
-                    experienceList.add(new Experience("RIT Center", "", YearMonth.of(2012, 4), YearMonth.of(2014, 10), "Автор проекта.", "Создание, организация и проведение Java онлайн проектов и стажировок."));
+                    experienceDatesJavaops.add(new ExperienceDate(YearMonth.of(2013, 10), YearMonth.now()
+                            , "Автор проекта."
+                            , "Создание, организация и проведение Java онлайн проектов и стажировок."));
+                    experienceList.add(
+                            new Experience("Java Online Projects", "http://javaops.ru/"
+                                    , experienceDatesJavaops));
+
+
+                    experienceDatesWrike.add(new ExperienceDate(YearMonth.of(2014, 10)
+                            , YearMonth.of(2016, 1)
+                            , "Старший разработчик (backend)."
+                            , "Проектирование и разработка онлайн платформы управления проектами Wrike "
+                            + "(Java 8 API, Maven, Spring, MyBatis, Guava, Vaadin, PostgreSQL, Redis). "
+                            + "Двухфакторная аутентификация, авторизация по OAuth1, OAuth2, JWT SSO."));
+                    experienceList.add(new Experience("Wrike", "https://www.wrike.com/"
+                            , experienceDatesWrike));
+
+                    experienceDatesRit.add(new ExperienceDate(YearMonth.of(2012, 4)
+                            , YearMonth.of(2014, 10)
+                            , "Автор проекта."
+                            , "Создание, организация и проведение Java онлайн проектов и стажировок."));
+                    experienceList.add(new Experience("RIT Center", "", experienceDatesRit));
 
                     resume.setSection(SectionType.EXPERIENCE, new Organization(experienceList));
                 }
 
                 case EDUCATION -> {
                     List<Experience> educationList = new ArrayList<>();
+                    List<ExperienceDate> educationDatesCoursera = new ArrayList<>();
+                    List<ExperienceDate> educationDatesIfmo = new ArrayList<>();
 
-                    educationList.add(new Experience("Coursera", "https://www.coursera.org/course/progfun", YearMonth.of(2013, 3), YearMonth.of(2013, 5), "", "\"Functional Programming Principles in Scala\" by Martin Odersky"));
-                    educationList.add(new Experience("Luxoft", "http://www.luxoft-training.ru/training/catalog/course.html?ID=22366", YearMonth.of(2011, 3), YearMonth.of(2011, 4), "", "Курс \"Объектно-ориентированный анализ ИС. " + "Концептуальное моделирование на UML.\""));
+                    educationDatesCoursera.add(new ExperienceDate(YearMonth.of(2013, 3)
+                            , YearMonth.of(2013, 5)
+                            , "", "\"Functional Programming Principles in Scala\" by Martin Odersky"));
+                    educationList.add(new Experience("Coursera", "https://www.coursera.org/course/progfun"
+                            , educationDatesCoursera));
+
+                    educationDatesIfmo.add(new ExperienceDate(YearMonth.of(1993, 9)
+                            , YearMonth.of(1996, 7), ""
+                            , "Аспирантура (программист С, С++)"));
+                    educationDatesIfmo.add(new ExperienceDate(YearMonth.of(1987, 9)
+                            , YearMonth.of(1993, 7), ""
+                            , "Инженер (программист Fortran, C)"));
+                    educationList.add(new Experience("Санкт-Петербургский национальный исследовательский " +
+                            "университет информационных технологий, механики и оптики", "http://www.ifmo.ru/"
+                            , educationDatesIfmo));
 
                     resume.setSection(SectionType.EDUCATION, new Organization(educationList));
                 }

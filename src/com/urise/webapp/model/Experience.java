@@ -1,38 +1,31 @@
 package com.urise.webapp.model;
 
-import java.time.YearMonth;
+import java.util.List;
 import java.util.Objects;
 
 public class Experience {
 
     private final String name;
     private final String url;
-    private final YearMonth startDate;
-    private final YearMonth endDate;
-    private final String position;
-    private final String description;
+    private final List<ExperienceDate> experienceDate;
 
-    public Experience(String name, String url, YearMonth startDate, YearMonth endDate, String position, String description) {
+    public Experience(String name, String url, List<ExperienceDate> experienceDate) {
         Objects.requireNonNull(name, "name must not be null");
-        Objects.requireNonNull(url, "name must not be null");
-        Objects.requireNonNull(startDate, "startDate must not be null");
-        Objects.requireNonNull(endDate, "endDate must not be null");
-        Objects.requireNonNull(position, "position must not be null");
-        Objects.requireNonNull(description, "description must not be null");
+        Objects.requireNonNull(experienceDate, "experience date must not be null");
         this.name = name;
         this.url = url;
-        this.startDate = startDate;
-        this.endDate = endDate;
-        this.position = position;
-        this.description = description;
+        this.experienceDate = experienceDate;
     }
-
 
     @Override
     public String toString() {
-        return name + " " + url + System.lineSeparator() +
-                startDate + " " + endDate + " " + position + System.lineSeparator() +
-                description + System.lineSeparator();
+        StringBuilder result = new StringBuilder();
+
+        result.append(name).append(" ").append(url).append(System.lineSeparator());
+        for (ExperienceDate data : experienceDate) {
+            result.append(data).append(System.lineSeparator());
+        }
+        return result.toString();
     }
 
     @Override
@@ -40,13 +33,11 @@ public class Experience {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Experience that = (Experience) o;
-        return Objects.equals(name, that.name) && Objects.equals(url, that.url)
-                && Objects.equals(startDate, that.startDate) && Objects.equals(endDate, that.endDate)
-                && Objects.equals(position, that.position) && Objects.equals(description, that.description);
+        return name.equals(that.name) && Objects.equals(url, that.url) && experienceDate.equals(that.experienceDate);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(name, url, startDate, endDate, position, description);
+        return Objects.hash(name, url, experienceDate);
     }
 }
