@@ -7,14 +7,16 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
 import static com.urise.webapp.ResumeTestData.createResume;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertSame;
+import static org.junit.Assert.*;
 
 public abstract class AbstractStorageTest {
+    protected static final String STORAGE_PATH = "C:\\Users\\Oleg\\Documents\\projects\\basejava\\storage";
+    protected static final File STORAGE_DIR = new File(STORAGE_PATH);
     protected static final String NOT_EXIST_UUID = "uuid16";
     protected static final String NOT_EXIST_FULLNAME = "Herman Flow";
     protected static final List<Resume> EXPECTED_RESUME_LIST = new ArrayList<>();
@@ -60,7 +62,7 @@ public abstract class AbstractStorageTest {
         Resume resume = createResume(EXIST_UUID, EXIST_FULLNAME);
 
         storage.update(resume);
-        assertSame(resume, storage.get(EXIST_UUID));
+        assertTrue(resume.equals(storage.get(EXIST_UUID)));
     }
 
     @Test(expected = NotExistStorageException.class)

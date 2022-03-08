@@ -5,6 +5,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 
 public class MainFile {
+    private static int counter = -1;
 
     public static void main(String[] args) {
         String filePath = ".\\.gitignore";
@@ -32,7 +33,7 @@ public class MainFile {
         }
 
         System.out.println("----------Список файлов каталога ./src/com/urise/webapp------------");
-        getFileNames("./src/com/urise/webapp");
+        getFileNames("./src/");
     }
 
     public static void getFileNames(String pathname) {
@@ -41,11 +42,23 @@ public class MainFile {
         if (files != null && files.length > 0) {
             for (File file : files) {
                 if (file.isDirectory()) {
-                    getFileNames(file.getAbsolutePath());
+                    printName("Dir", file);
                 } else {
-                    System.out.println(file.getName());
+                    printName("File", file);
                 }
             }
         }
+    }
+
+    private static void printName (String type, File file) {
+        counter++;
+        for (int i = 0; i < counter; i++) {
+            System.out.print("  ");
+        }
+        System.out.println(type + ": " + file.getName());
+        if (type.equals("Dir")) {
+            getFileNames(file.getAbsolutePath());
+        }
+        counter--;
     }
 }

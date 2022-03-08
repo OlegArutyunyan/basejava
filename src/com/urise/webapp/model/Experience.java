@@ -1,9 +1,10 @@
 package com.urise.webapp.model;
 
+import java.io.Serializable;
 import java.time.YearMonth;
 import java.util.Objects;
 
-public class Experience {
+public class Experience implements Serializable {
     private final YearMonth startDate;
     private final YearMonth endDate;
     private final String position;
