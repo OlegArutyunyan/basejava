@@ -2,12 +2,12 @@ package com.urise.webapp.model;
 
 import java.util.Objects;
 
-public class SimpleLineSections extends AbstractSection {
+public class TextSection extends Section {
     private static final long serialVersionUID = 1L;
 
     private final String personalData;
 
-    public SimpleLineSections(String item) {
+    public TextSection(String item) {
         Objects.requireNonNull(item, "item must not be null");
         this.personalData = item;
     }
@@ -25,7 +25,7 @@ public class SimpleLineSections extends AbstractSection {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        SimpleLineSections that = (SimpleLineSections) o;
+        TextSection that = (TextSection) o;
         return Objects.equals(personalData, that.personalData);
     }
 

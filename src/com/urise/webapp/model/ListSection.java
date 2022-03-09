@@ -3,25 +3,25 @@ package com.urise.webapp.model;
 import java.util.List;
 import java.util.Objects;
 
-public class ListOrganization extends AbstractSection {
+public class ListSection extends Section {
     private static final long serialVersionUID = 1L;
+    
+    private final List<String> personalData;
 
-    private final List<Organization> organizations;
-
-    public ListOrganization(List<Organization> data) {
+    public ListSection(List<String> data) {
         Objects.requireNonNull(data, "item must not be null");
-        this.organizations = data;
+        this.personalData = data;
     }
 
-    public List<Organization> getOrganizations() {
-        return organizations;
+    public List<String> getPersonalData() {
+        return personalData;
     }
 
     @Override
     public String toString() {
         StringBuilder result = new StringBuilder();
 
-        for (Organization listItem : organizations) {
+        for (String listItem : personalData) {
             result.append(listItem).append(System.lineSeparator());
         }
         return result.toString();
@@ -31,12 +31,12 @@ public class ListOrganization extends AbstractSection {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        ListOrganization that = (ListOrganization) o;
-        return Objects.equals(organizations, that.organizations);
+        ListSection that = (ListSection) o;
+        return Objects.equals(personalData, that.personalData);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(organizations);
+        return Objects.hash(personalData);
     }
 }

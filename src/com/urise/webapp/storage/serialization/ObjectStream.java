@@ -1,11 +1,11 @@
-package com.urise.webapp.storage;
+package com.urise.webapp.storage.serialization;
 
 import com.urise.webapp.exception.StorageException;
 import com.urise.webapp.model.Resume;
 
 import java.io.*;
 
-public class ObjectStreamStorage implements Serialization {
+public class ObjectStream implements Serialization {
 //    protected ObjectStreamStorage(File directory) {
 //        super(directory);
 //    }

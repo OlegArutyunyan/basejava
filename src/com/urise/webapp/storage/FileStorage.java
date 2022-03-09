@@ -2,6 +2,7 @@ package com.urise.webapp.storage;
 
 import com.urise.webapp.exception.StorageException;
 import com.urise.webapp.model.Resume;
+import com.urise.webapp.storage.serialization.Serialization;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -27,16 +28,17 @@ public class FileStorage extends AbstractStorage<File> {
     @Override
     public void clear() {
         File[] files = directory.listFiles();
-        if (files != null) {
-            for (File file : files) {
-                file.delete();
-            }
+
+        checkForNull(files);
+        for (File file : files) {
+            file.delete();
         }
     }
 
     @Override
     public int size() {
-        return Objects.requireNonNull(directory.list()).length;
+        checkForNull(directory.listFiles());
+        return directory.listFiles().length;
     }
 
     @Override
@@ -79,18 +81,26 @@ public class FileStorage extends AbstractStorage<File> {
 
     @Override
     protected void deleteResume(File file) {
-        file.delete();
+        if (!file.delete()) {
+            throw new StorageException("File delete error", file.getName());
+        }
     }
 
     @Override
     protected List<Resume> createResumeList() {
         File[] files = directory.listFiles();
         List<Resume> list = new ArrayList<>();
-        if (files != null) {
-            for (File file : files) {
-                list.add(getResume(file));
-            }
+
+        checkForNull(files);
+        for (File file : files) {
+            list.add(getResume(file));
         }
         return list;
+    }
+    
+    private void checkForNull (File [] files) {
+        if (files == null) {
+            throw new StorageException("No files found", null);
+        }
     }
 }

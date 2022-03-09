@@ -2,9 +2,11 @@ package com.urise.webapp.storage;
 
 import com.urise.webapp.exception.StorageException;
 import com.urise.webapp.model.Resume;
+import com.urise.webapp.storage.serialization.Serialization;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -40,9 +42,6 @@ public class PathStorage extends AbstractStorage<Path> {
     public int size() {
         try {
             Stream<Path> list = Files.list(directory);
-            if (list == null) {
-                throw new StorageException("Directory read error", null);
-            }
             return (int) list.count();
         } catch (IOException e) {
             throw new StorageException("Directory read error", null, e);
@@ -98,14 +97,15 @@ public class PathStorage extends AbstractStorage<Path> {
 
     @Override
     protected List<Resume> createResumeList() {
-        List<Resume> list = new ArrayList<>();
-
         try {
-            Stream<Path> paths = Files.list(directory);
-            paths.forEach(path -> list.add(getResume(path)));
+            List<Resume> resumeList = new ArrayList<>();
+
+            Files.list(directory).map(this::getResume).forEach(resumeList::add);
+            return resumeList;
         } catch (IOException e) {
-            e.printStackTrace();
+            throw new StorageException("Directory read error", null, e);
         }
-        return list;
     }
+
+
 }
