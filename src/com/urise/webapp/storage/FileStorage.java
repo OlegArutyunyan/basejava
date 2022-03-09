@@ -6,6 +6,7 @@ import com.urise.webapp.storage.serialization.Serialization;
 
 import java.io.*;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
@@ -27,18 +28,12 @@ public class FileStorage extends AbstractStorage<File> {
 
     @Override
     public void clear() {
-        File[] files = directory.listFiles();
-
-        checkForNull(files);
-        for (File file : files) {
-            file.delete();
-        }
+        Arrays.stream(checkForNull(directory.listFiles())).forEach(File::delete);
     }
 
     @Override
     public int size() {
-        checkForNull(directory.listFiles());
-        return directory.listFiles().length;
+        return checkForNull(directory.listFiles()).length;
     }
 
     @Override
@@ -88,19 +83,16 @@ public class FileStorage extends AbstractStorage<File> {
 
     @Override
     protected List<Resume> createResumeList() {
-        File[] files = directory.listFiles();
         List<Resume> list = new ArrayList<>();
 
-        checkForNull(files);
-        for (File file : files) {
-            list.add(getResume(file));
-        }
+        Arrays.stream(checkForNull(directory.listFiles())).forEach(file -> list.add(getResume(file)));
         return list;
     }
     
-    private void checkForNull (File [] files) {
+    private File[] checkForNull (File [] files) {
         if (files == null) {
             throw new StorageException("No files found", null);
         }
+        return files;
     }
 }
