@@ -14,6 +14,7 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class PathStorage extends AbstractStorage<Path> {
@@ -88,10 +89,7 @@ public class PathStorage extends AbstractStorage<Path> {
 
     @Override
     protected List<Resume> createResumeList() {
-        List<Resume> resumeList = new ArrayList<>();
-
-        createStream().map(this::getResume).forEach(resumeList::add);
-        return resumeList;
+        return createStream().map(this::getResume).collect(Collectors.toList());
     }
 
     private Stream<Path> createStream () {

@@ -28,12 +28,12 @@ public class FileStorage extends AbstractStorage<File> {
 
     @Override
     public void clear() {
-        Arrays.stream(checkForNull(directory.listFiles())).forEach(File::delete);
+        Arrays.stream(getFiles()).forEach(File::delete);
     }
 
     @Override
     public int size() {
-        return checkForNull(directory.listFiles()).length;
+        return getFiles().length;
     }
 
     @Override
@@ -85,14 +85,14 @@ public class FileStorage extends AbstractStorage<File> {
     protected List<Resume> createResumeList() {
         List<Resume> list = new ArrayList<>();
 
-        Arrays.stream(checkForNull(directory.listFiles())).forEach(file -> list.add(getResume(file)));
+        Arrays.stream(getFiles()).forEach(file -> list.add(getResume(file)));
         return list;
     }
     
-    private File[] checkForNull (File [] files) {
-        if (files == null) {
+    private File[] getFiles () {
+        if (directory.listFiles() == null) {
             throw new StorageException("No files found", null);
         }
-        return files;
+        return directory.listFiles();
     }
 }
