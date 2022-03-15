@@ -15,7 +15,7 @@ public class TextSection extends Section {
         this.personalData = item;
     }
 
-    protected String getItem() {
+    public String getItem() {
         return personalData;
     }
 
