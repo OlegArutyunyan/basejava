@@ -1,16 +1,25 @@
 package com.urise.webapp.model;
 
+import com.urise.webapp.util.YearMonthAdapter;
+
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 import java.io.Serializable;
 import java.time.YearMonth;
 import java.util.List;
 import java.util.Objects;
 
+@XmlAccessorType(XmlAccessType.FIELD)
 public class Organization implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    private final Link homePage;
-    private final List<Position> position;
+    private Link homePage;
+    private List<Position> position;
+
+    public Organization() {
+    }
 
     public Organization(String name, String url, List<Position> position) {
         Objects.requireNonNull(name, "name must not be null");
@@ -43,11 +52,17 @@ public class Organization implements Serializable {
         return result.toString();
     }
 
+    @XmlAccessorType(XmlAccessType.FIELD)
     public static class Position implements Serializable {
-        private final YearMonth startDate;
-        private final YearMonth endDate;
-        private final String position;
-        private final String description;
+        @XmlJavaTypeAdapter(YearMonthAdapter.class)
+        private YearMonth startDate;
+        @XmlJavaTypeAdapter(YearMonthAdapter.class)
+        private YearMonth endDate;
+        private String position;
+        private String description;
+
+        public Position() {
+        }
 
         public Position(YearMonth startDate, YearMonth endDate, String position, String description) {
             Objects.requireNonNull(startDate, "startDate must not be null");
