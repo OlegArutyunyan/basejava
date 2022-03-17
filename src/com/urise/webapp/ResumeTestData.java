@@ -100,7 +100,7 @@ public class ResumeTestData {
                     positionDatesRit.add(new Organization.Position(YearMonth.of(2012, 4)
                             , YearMonth.of(2014, 10)
                             , "Автор проекта."
-                            , "Создание, организация и проведение Java онлайн проектов и стажировок."));
+                            , ""));
                     organizationList.add(new Organization("RIT Center", "", positionDatesRit));
 
                     resume.setSection(SectionType.EXPERIENCE, new OrganizationSection(organizationList));
@@ -114,7 +114,7 @@ public class ResumeTestData {
                     educationDatesCoursera.add(new Organization.Position(YearMonth.of(2013, 3)
                             , YearMonth.of(2013, 5)
                             , "", "\"Functional Programming Principles in Scala\" by Martin Odersky"));
-                    educationList.add(new Organization("Coursera", "https://www.coursera.org/course/progfun"
+                    educationList.add(new Organization("Coursera", ""
                             , educationDatesCoursera));
 
                     educationDatesIfmo.add(new Organization.Position(YearMonth.of(1993, 9)
