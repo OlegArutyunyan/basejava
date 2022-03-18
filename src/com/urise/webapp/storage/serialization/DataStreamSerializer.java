@@ -55,47 +55,42 @@ public class DataStreamSerializer implements Serialization {
         try (DataInputStream dis = new DataInputStream(is)) {
             Resume resume = new Resume(dis.readUTF(), dis.readUTF());
 
-            int contactsSize = dis.readInt();
-            for (int i = 0; i < contactsSize; i++) {
+            readWithException(dis, () -> {
                 resume.setContact(ContactType.valueOf(dis.readUTF()), dis.readUTF());
-            }
+            });
 
-            int sectionsSize = dis.readInt();
-            for (int i = 0; i < sectionsSize; i++) {
+            readWithException(dis, () -> {
                 SectionType type = SectionType.valueOf(dis.readUTF());
 
                 switch (type) {
                     case PERSONAL, OBJECTIVE -> resume.setSection(type, new TextSection(dis.readUTF()));
                     case ACHIEVEMENT, QUALIFICATIONS -> {
                         List<String> personalData = new ArrayList<>();
-                        int personalDataSize = dis.readInt();
 
-                        for (int j = 0; j < personalDataSize; j++) {
+                        readWithException(dis, () -> {
                             personalData.add(dis.readUTF());
-                        }
+                        });
                         resume.setSection(type, new ListSection(personalData));
                     }
                     case EXPERIENCE, EDUCATION -> {
                         List<Organization> organizations = new ArrayList<>();
-                        int organizationsSize = dis.readInt();
 
-                        for (int j = 0; j < organizationsSize; j++) {
+                        readWithException(dis, () -> {
                             String organizationName = dis.readUTF();
                             String organizationUrl = dis.readUTF();
 
                             List<Organization.Position> positions = new ArrayList<>();
-                            int positionsSize = dis.readInt();
 
-                            for (int k = 0; k < positionsSize; k++) {
+                            readWithException(dis, () -> {
                                 positions.add(new Organization.Position(stringToDate(dis),
                                         stringToDate(dis), dis.readUTF(), dis.readUTF()));
-                            }
+                            });
                             organizations.add(new Organization(organizationName, organizationUrl, positions));
-                        }
+                        });
                         resume.setSection(type, new OrganizationSection(organizations));
                     }
                 }
-            }
+            });
             return resume;
         }
     }
@@ -129,7 +124,19 @@ public class DataStreamSerializer implements Serialization {
         }
     }
 
+    private <T> void readWithException(DataInputStream dis, Reader<T> reader)
+            throws IOException {
+        int size = dis.readInt();
+        for (int i = 0; i < size; i++) {
+            reader.read();
+        }
+    }
+
     interface Writer<T> {
         void write(T t) throws IOException;
+    }
+
+    interface Reader<T> {
+        void read() throws IOException;
     }
 }
