@@ -9,27 +9,27 @@ public class DeadLock {
     private static final Object LOCK2 = new Object();
 
     public static void main(String[] args) {
-        createNewThread(LOCK1, LOCK2, 1);
-        createNewThread(LOCK2, LOCK1, 2);
+        createNewThread(LOCK1, LOCK2);
+        createNewThread(LOCK2, LOCK1);
     }
 
-    public static void createNewThread (Object lock1, Object lock2, int threadNumber) {
+    public static void createNewThread (Object lock1, Object lock2) {
         new Thread(() -> {
             try {
-                operation(lock1, lock2, threadNumber);
+                operation(lock1, lock2);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
         }).start();
     }
 
-    public static void operation(Object lock1, Object lock2, int threadNumber) throws InterruptedException {
+    public static void operation(Object lock1, Object lock2) throws InterruptedException {
         synchronized (lock1) {
-            System.out.println("Thread" + threadNumber + " locks lock" + threadNumber);
+            System.out.println(Thread.currentThread().getName() + " locks lock");
             sleep(50);
             synchronized (lock2) {
-                System.out.println("Thread" + threadNumber + " locks another lock");
-                System.out.println("Operation method executed from Thread" + threadNumber);
+                System.out.println(Thread.currentThread().getName() + " locks another lock");
+                System.out.println("Operation method executed from " + Thread.currentThread().getName());
             }
         }
     }
