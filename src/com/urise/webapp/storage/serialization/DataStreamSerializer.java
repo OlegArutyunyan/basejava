@@ -82,8 +82,8 @@ public class DataStreamSerializer implements Serialization {
                             List<Organization.Position> positions = new ArrayList<>();
 
                             readWithException(dis, () -> {
-                                positions.add(new Organization.Position(stringToDate(dis),
-                                        stringToDate(dis), dis.readUTF(), dis.readUTF()));
+                                positions.add(new Organization.Position(readDate(dis),
+                                        readDate(dis), dis.readUTF(), dis.readUTF()));
                             });
                             organizations.add(new Organization(organizationName, organizationUrl, positions));
                         });
@@ -101,18 +101,18 @@ public class DataStreamSerializer implements Serialization {
     }
 
     private void writePosition(DataOutputStream dos, Organization.Position position) throws IOException {
-        dateToString(position.getStartDate(), dos);
-        dateToString(position.getEndDate(), dos);
+        writeDate(position.getStartDate(), dos);
+        writeDate(position.getEndDate(), dos);
         dos.writeUTF(position.getPosition());
         dos.writeUTF(position.getDescription());
     }
 
-    private void dateToString(YearMonth ym, DataOutputStream dos) throws IOException {
+    private void writeDate(YearMonth ym, DataOutputStream dos) throws IOException {
         dos.writeInt(ym.getYear());
         dos.writeInt(ym.getMonthValue());
     }
 
-    private YearMonth stringToDate(DataInputStream dis) throws IOException {
+    private YearMonth readDate(DataInputStream dis) throws IOException {
         return YearMonth.of(dis.readInt(), dis.readInt());
     }
 
