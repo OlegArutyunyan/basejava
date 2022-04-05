@@ -1,5 +1,6 @@
 package com.urise.webapp.storage;
 
+import com.urise.webapp.Config;
 import com.urise.webapp.exception.ExistStorageException;
 import com.urise.webapp.exception.NotExistStorageException;
 import com.urise.webapp.model.Resume;
@@ -10,17 +11,22 @@ import org.junit.Test;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 import static com.urise.webapp.ResumeTestData.createResume;
 import static org.junit.Assert.*;
 
 public abstract class AbstractStorageTest {
     protected static final String STORAGE_PATH = "C:\\Users\\Oleg\\Documents\\projects\\basejava\\storage";
-    protected static final File STORAGE_DIR = new File(STORAGE_PATH);
-    protected static final String NOT_EXIST_UUID = "uuid16";
+    protected static final File STORAGE_DIR = Config.get().getStorageDir();
+
+    protected static final String UUID1 = UUID.randomUUID().toString();
+    protected static final String UUID2 = UUID.randomUUID().toString();
+    protected static final String UUID3 = UUID.randomUUID().toString();
+    protected static final String NOT_EXIST_UUID = UUID.randomUUID().toString();
     protected static final String NOT_EXIST_FULLNAME = "Herman Flow";
     protected static final List<Resume> EXPECTED_RESUME_LIST = new ArrayList<>();
-    private static final String EXIST_UUID = "uuid2";
+    private static final String EXIST_UUID = UUID2;
     private static final String EXIST_FULLNAME = "Mark Brown";
     protected final Storage storage;
 
@@ -31,18 +37,18 @@ public abstract class AbstractStorageTest {
     @BeforeClass
     public static void setUpResumeModel() {
         EXPECTED_RESUME_LIST.clear();
-        EXPECTED_RESUME_LIST.add(createResume("uuid1", "John Onion"));
-        EXPECTED_RESUME_LIST.add(createResume("uuid2", "Mark Brown"));
-        EXPECTED_RESUME_LIST.add(createResume("uuid3", "Tomas Dark"));
+        EXPECTED_RESUME_LIST.add(createResume(UUID1, "John Onion"));
+        EXPECTED_RESUME_LIST.add(createResume(UUID2, "Mark Brown"));
+        EXPECTED_RESUME_LIST.add(createResume(UUID3, "Tomas Dark"));
     }
 
     @Before
     public void setUp() {
         List<Resume> resumeList = new ArrayList<>();
 
-        resumeList.add(createResume("uuid1", "John Onion"));
-        resumeList.add(createResume("uuid3", "Tomas Dark"));
-        resumeList.add(createResume("uuid2", "Mark Brown"));
+        resumeList.add(createResume(UUID1, "John Onion"));
+        resumeList.add(createResume(UUID3, "Tomas Dark"));
+        resumeList.add(createResume(UUID2, "Mark Brown"));
 
         storage.clear();
 
