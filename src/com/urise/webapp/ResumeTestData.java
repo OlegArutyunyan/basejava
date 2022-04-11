@@ -17,12 +17,12 @@ public class ResumeTestData {
 
     public static Resume createResume(String uuid, String fullName) {
         Resume resume = new Resume(uuid, fullName);
-        //fillContacts(resume);
+        fillContacts(resume);
         //fillSections(resume);
         return resume;
     }
 
-    private static void printContacts(Resume resume) {
+    public static void printContacts(Resume resume) {
         System.out.println();
         for (ContactType contact : ContactType.values()) {
             System.out.println(contact.getTitle() + ": " + resume.getContact(contact));
