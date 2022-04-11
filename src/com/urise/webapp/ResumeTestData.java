@@ -22,6 +22,10 @@ public class ResumeTestData {
         return resume;
     }
 
+    public static Resume createResumeWOContacts(String uuid, String fullName) {
+        return new Resume(uuid, fullName);
+    }
+
     public static void printContacts(Resume resume) {
         System.out.println();
         for (ContactType contact : ContactType.values()) {

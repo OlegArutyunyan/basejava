@@ -14,6 +14,7 @@ import java.util.List;
 import java.util.UUID;
 
 import static com.urise.webapp.ResumeTestData.createResume;
+import static com.urise.webapp.ResumeTestData.createResumeWOContacts;
 import static org.junit.Assert.*;
 
 public abstract class AbstractStorageTest {
@@ -38,7 +39,7 @@ public abstract class AbstractStorageTest {
     public static void setUpResumeModel() {
         EXPECTED_RESUME_LIST.clear();
         EXPECTED_RESUME_LIST.add(createResume(UUID1, "John Onion"));
-        EXPECTED_RESUME_LIST.add(createResume(UUID2, "Mark Brown"));
+        EXPECTED_RESUME_LIST.add(createResumeWOContacts(UUID2, "Mark Brown"));
         EXPECTED_RESUME_LIST.add(createResume(UUID3, "Tomas Dark"));
     }
 
@@ -48,7 +49,7 @@ public abstract class AbstractStorageTest {
 
         resumeList.add(createResume(UUID1, "John Onion"));
         resumeList.add(createResume(UUID3, "Tomas Dark"));
-        resumeList.add(createResume(UUID2, "Mark Brown"));
+        resumeList.add(createResumeWOContacts(UUID2, "Mark Brown"));
 
         storage.clear();
 
@@ -78,7 +79,12 @@ public abstract class AbstractStorageTest {
 
     @Test
     public void get() {
-        assertEquals(createResume(EXIST_UUID, EXIST_FULLNAME), storage.get(EXIST_UUID));
+        assertEquals(createResume(UUID1, "John Onion"), storage.get(UUID1));
+    }
+
+    @Test
+    public void getWOContacts() {
+        assertEquals(createResumeWOContacts(EXIST_UUID, EXIST_FULLNAME), storage.get(EXIST_UUID));
     }
 
     @Test(expected = NotExistStorageException.class)

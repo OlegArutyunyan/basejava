@@ -3,6 +3,7 @@ package com.urise.webapp.storage;
 import com.urise.webapp.exception.NotExistStorageException;
 import com.urise.webapp.model.ContactType;
 import com.urise.webapp.model.Resume;
+import com.urise.webapp.sql.SqlHelper;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -137,17 +138,16 @@ public class SqlStorage implements Storage {
     }
 
     private void readContact(Resume r, ResultSet rs) throws SQLException {
-        String value = rs.getString("value");
-        ContactType type = ContactType.valueOf(rs.getString("type"));
-        r.setContact(type, value);
+        if (rs.getString("value") != null) {
+            String value = rs.getString("value");
+            ContactType type = ContactType.valueOf(rs.getString("type"));
+            r.setContact(type, value);
+        }
     }
 
     private void deleteContact (Resume r, Connection conn) throws SQLException {
         try (PreparedStatement ps = conn.prepareStatement("DELETE FROM contact WHERE resume_uuid = ?")) {
             ps.setString(1, r.getUuid());
-            if (ps.executeUpdate() == 0) {
-                throw new SQLException("Can't delete contacts");
-            }
         }
     }
 
