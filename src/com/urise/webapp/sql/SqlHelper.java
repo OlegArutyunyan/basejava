@@ -40,6 +40,8 @@ public class SqlHelper {
                 if (Objects.equals(e.getSQLState(), "23505")) {
                     throw new ExistStorageException(null);
                 }
+//                throw new StorageException(e);
+                 e.getNextException().printStackTrace();
                 throw new StorageException(e);
             }
         } catch (SQLException e) {

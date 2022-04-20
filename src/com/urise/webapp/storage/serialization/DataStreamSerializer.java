@@ -29,22 +29,22 @@ public class DataStreamSerializer implements Serialization {
                 dos.writeUTF(key.name());
                 switch (key) {
                     case PERSONAL, OBJECTIVE -> dos.writeUTF(((TextSection) entry.getValue()).getItem());
-                    case ACHIEVEMENT, QUALIFICATIONS -> {
-                        List<String> personalData = ((ListSection) entry.getValue()).getPersonalData();
-
-                        writeWithException(personalData, dos, dos::writeUTF);
-                    }
-                    case EXPERIENCE, EDUCATION -> {
-                        List<Organization> organizations = ((OrganizationSection) entry.getValue()).getOrganizations();
-
-                        writeWithException(organizations, dos, organization -> {
-                            writeHomePage(dos, organization.getHomePage());
-
-                            writeWithException(organization.getPosition(), dos, position -> {
-                                writePosition(dos, position);
-                            });
-                        });
-                    }
+//                    case ACHIEVEMENT, QUALIFICATIONS -> {
+//                        List<String> personalData = ((ListSection) entry.getValue()).getPersonalData();
+//
+//                        writeWithException(personalData, dos, dos::writeUTF);
+//                    }
+//                    case EXPERIENCE, EDUCATION -> {
+//                        List<Organization> organizations = ((OrganizationSection) entry.getValue()).getOrganizations();
+//
+//                        writeWithException(organizations, dos, organization -> {
+//                            writeHomePage(dos, organization.getHomePage());
+//
+//                            writeWithException(organization.getPosition(), dos, position -> {
+//                                writePosition(dos, position);
+//                            });
+//                        });
+//                    }
                 }
             });
         }
@@ -64,31 +64,31 @@ public class DataStreamSerializer implements Serialization {
 
                 switch (type) {
                     case PERSONAL, OBJECTIVE -> resume.setSection(type, new TextSection(dis.readUTF()));
-                    case ACHIEVEMENT, QUALIFICATIONS -> {
-                        List<String> personalData = new ArrayList<>();
-
-                        readWithException(dis, () -> {
-                            personalData.add(dis.readUTF());
-                        });
-                        resume.setSection(type, new ListSection(personalData));
-                    }
-                    case EXPERIENCE, EDUCATION -> {
-                        List<Organization> organizations = new ArrayList<>();
-
-                        readWithException(dis, () -> {
-                            String organizationName = dis.readUTF();
-                            String organizationUrl = dis.readUTF();
-
-                            List<Organization.Position> positions = new ArrayList<>();
-
-                            readWithException(dis, () -> {
-                                positions.add(new Organization.Position(readDate(dis),
-                                        readDate(dis), dis.readUTF(), dis.readUTF()));
-                            });
-                            organizations.add(new Organization(organizationName, organizationUrl, positions));
-                        });
-                        resume.setSection(type, new OrganizationSection(organizations));
-                    }
+//                    case ACHIEVEMENT, QUALIFICATIONS -> {
+//                        List<String> personalData = new ArrayList<>();
+//
+//                        readWithException(dis, () -> {
+//                            personalData.add(dis.readUTF());
+//                        });
+//                        resume.setSection(type, new ListSection(personalData));
+//                    }
+//                    case EXPERIENCE, EDUCATION -> {
+//                        List<Organization> organizations = new ArrayList<>();
+//
+//                        readWithException(dis, () -> {
+//                            String organizationName = dis.readUTF();
+//                            String organizationUrl = dis.readUTF();
+//
+//                            List<Organization.Position> positions = new ArrayList<>();
+//
+//                            readWithException(dis, () -> {
+//                                positions.add(new Organization.Position(readDate(dis),
+//                                        readDate(dis), dis.readUTF(), dis.readUTF()));
+//                            });
+//                            organizations.add(new Organization(organizationName, organizationUrl, positions));
+//                        });
+//                        resume.setSection(type, new OrganizationSection(organizations));
+//                    }
                 }
             });
             return resume;

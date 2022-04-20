@@ -18,7 +18,7 @@ import static com.urise.webapp.ResumeTestData.createResumeWOContacts;
 import static org.junit.Assert.*;
 
 public abstract class AbstractStorageTest {
-    protected static final String STORAGE_PATH = "C:\\Users\\Oleg\\Documents\\projects\\basejava\\storage";
+    protected static final String STORAGE_PATH = "C:\\Users\\Oleg\\Documents\\basejava\\storage";
     protected static final File STORAGE_DIR = Config.get().getStorageDir();
 
     protected static final String UUID1 = UUID.randomUUID().toString();
